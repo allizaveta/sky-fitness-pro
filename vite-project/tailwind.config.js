@@ -11,7 +11,7 @@ export default {
         "hover-green": "#C6FF00",
         "active-green": "#000000",
         "inactive-btn": "#F7F7F7",
-        bg: "#FAFAFA",
+        "bg": "#FAFAFA",
       },
       padding: {
         "pd-lg": "calc(50% - 580px)",
