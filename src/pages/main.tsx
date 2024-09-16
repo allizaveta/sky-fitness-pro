@@ -1,4 +1,5 @@
 import { CourseMain } from "../component/courseFromMain";
+import { Link } from "react-router-dom";
 
 export function Main() {
   return (
@@ -24,6 +25,11 @@ export function Main() {
         onClick={() => window.scrollTo(0, 0)}
       >
         Наверх ↑
+      </button>
+      <br></br>
+      <button>
+        КНОПКА
+        <Link to="/login">КНОПКА КНОПКА</Link>
       </button>
     </div>
   );
