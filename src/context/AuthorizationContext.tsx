@@ -8,8 +8,11 @@ import {
 
 interface ModalContextType {
   isModalOpen: boolean;
+  isRegistrationOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
+  openRegistrationModal: () => void;
+  closeRegistrationModal: () => void;
 }
 
 const AuthorizationContext = createContext<ModalContextType | undefined>(
@@ -18,12 +21,16 @@ const AuthorizationContext = createContext<ModalContextType | undefined>(
 
 export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const openRegistrationModal = () => setIsRegistrationOpen(true);
+  const closeRegistrationModal = () => setIsRegistrationOpen(false);
+
   useEffect(() => {
-    if (isModalOpen) {
+    if (isModalOpen || isRegistrationOpen) {
       document.body.style.overflow = "hidden"; // Отключаем прокрутку
     } else {
       document.body.style.overflow = "";
@@ -32,11 +39,18 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, isRegistrationOpen]);
 
   return (
     <AuthorizationContext.Provider
-      value={{ isModalOpen, openModal, closeModal }}
+      value={{
+        isModalOpen,
+        isRegistrationOpen,
+        openModal,
+        closeModal,
+        openRegistrationModal,
+        closeRegistrationModal,
+      }}
     >
       {children}
     </AuthorizationContext.Provider>
@@ -46,7 +60,9 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
 export function useAuthorizationModal() {
   const context = useContext(AuthorizationContext);
   if (!context) {
-    throw new Error("useModal должен использоваться внутри ModalProvider");
+    throw new Error(
+      "useAuthorizationModal должен использоваться внутри AuthorizationProvider"
+    );
   }
   return context;
 }

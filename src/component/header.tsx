@@ -1,8 +1,10 @@
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 import { Authorization } from "../pages/authorization";
+import { Registration } from "../pages/registration";
 
 export function Header() {
-  const { isModalOpen, openModal } = useAuthorizationModal();
+  const { isModalOpen, isRegistrationOpen, openModal } =
+    useAuthorizationModal();
   return (
     <>
       <header className="flex justify-between pt-[40px] pb-[39px] laptop:pt-[50px] laptop:pb-[60px]">
@@ -20,6 +22,7 @@ export function Header() {
         </button>
       </header>
       {isModalOpen && <Authorization />}
+      {isRegistrationOpen && <Registration />}
     </>
   );
 }

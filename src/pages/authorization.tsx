@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 
 export function Authorization() {
-  const { closeModal } = useAuthorizationModal();
+  const { closeModal, openRegistrationModal } = useAuthorizationModal();
 
   // Закрытие модалки при нажатии Escape
   useEffect(() => {
@@ -55,8 +54,14 @@ export function Authorization() {
         <button className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mb-[10px] text-lg font-normal leading-5 active:text-white text-center">
           Войти
         </button>
-        <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[280px] h-[52px] text-lg font-normal leading-5 text-center border-[1px] border-black">
-          <Link to="/registration">Зарегистрироваться</Link>
+        <button
+          className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[280px] h-[52px] text-lg font-normal leading-5 text-center border-[1px] border-black"
+          onClick={() => {
+            closeModal();
+            openRegistrationModal();
+          }}
+        >
+          Зарегистрироваться
         </button>
       </div>
     </div>
