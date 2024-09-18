@@ -1,33 +1,12 @@
-import { useEffect } from "react";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
+import { ModalWrapper } from "../utils/ModalWrapper";
+import { useModal } from "../utils/useModal";
 
 export function Authorization() {
   const { closeModal, openRegistrationModal } = useAuthorizationModal();
-
-  // Закрытие модалки при нажатии Escape
-  useEffect(() => {
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeModal();
-      }
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => {
-      window.removeEventListener("keydown", handleEsc);
-    };
-  }, [closeModal]);
-
-  // Закрытие модалки при клике за её пределы
-  const handleOutsideClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      closeModal();
-    }
-  };
+  const handleOutsideClick = useModal(closeModal);
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-45"
-      onClick={handleOutsideClick}
-    >
+    <ModalWrapper onOutsideClick={handleOutsideClick}>
       <div className="bg-white w-[360px] h-[460px] pd-lg rounded-[30px] flex flex-col items-center">
         <img
           src="/logo (1).svg"
@@ -64,6 +43,6 @@ export function Authorization() {
           Зарегистрироваться
         </button>
       </div>
-    </div>
+    </ModalWrapper>
   );
 }

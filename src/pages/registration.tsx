@@ -1,9 +1,12 @@
 import { useAuthorizationModal } from "../context/AuthorizationContext";
+import { ModalWrapper } from "../utils/ModalWrapper";
+import { useModal } from "../utils/useModal";
 
 export function Registration() {
   const { openModal, closeRegistrationModal } = useAuthorizationModal();
+  const handleOutsideClick = useModal(closeRegistrationModal);
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-45">
+    <ModalWrapper onOutsideClick={handleOutsideClick}>
       <div className="bg-white w-[360px] h-[487px] pd-lg rounded-[30px] flex flex-col items-center">
         <img
           src="/logo (1).svg"
@@ -45,6 +48,6 @@ export function Registration() {
           Войти
         </button>
       </div>
-    </div>
+    </ModalWrapper>
   );
 }
