@@ -6,7 +6,10 @@ export function Registration() {
   const { openModal, closeRegistrationModal } = useAuthorizationModal();
   const handleOutsideClick = useModal(closeRegistrationModal);
   return (
-    <ModalWrapper onOutsideClick={handleOutsideClick}>
+    <ModalWrapper
+      onOutsideClick={handleOutsideClick}
+      containerClassName="w-[360px] h-[487px] pd-lg"
+    >
       <div className="bg-white w-[360px] h-[487px] pd-lg rounded-[30px] flex flex-col items-center">
         <img
           src="/logo (1).svg"
