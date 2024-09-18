@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function Authorization() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-45">
@@ -18,6 +20,7 @@ export function Authorization() {
             type="email"
           />
         </div>
+        {/* скрытое сообщение об ошибке */}
         <p className="text-error hidden">
           Пароль введен неверно, попробуйте
           <br />
@@ -27,7 +30,7 @@ export function Authorization() {
           Войти
         </button>
         <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[280px] h-[52px] text-lg font-normal leading-5 text-center border-[1px] border-black">
-          Зарегистрироваться
+          <Link to="/registration">Зарегистрироваться</Link>
         </button>
       </div>
     </div>
