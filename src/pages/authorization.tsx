@@ -1,8 +1,34 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuthorizationModal } from "../context/AuthorizationContext";
 
 export function Authorization() {
+  const { closeModal } = useAuthorizationModal();
+
+  // Закрытие модалки при нажатии Escape
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [closeModal]);
+
+  // Закрытие модалки при клике за её пределы
+  const handleOutsideClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-45">
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-45"
+      onClick={handleOutsideClick}
+    >
       <div className="bg-white w-[360px] h-[460px] pd-lg rounded-[30px] flex flex-col items-center">
         <img
           src="/logo (1).svg"
