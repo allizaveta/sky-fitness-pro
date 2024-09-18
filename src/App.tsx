@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Main } from "./pages/main";
-import { Registration } from "./pages/registration";
+import { Registration } from "./component/popups/registration";
 import { NotFound } from "./pages/not_found";
-import { Authorization } from "./pages/authorization";
+import { Authorization } from "./component/popups/authorization";
 import { Course } from "./pages/course";
 import { Profile } from "./pages/profile";
 import { Workout } from "./pages/workout";

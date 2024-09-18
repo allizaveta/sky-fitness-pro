@@ -1,6 +1,6 @@
 import { useAuthorizationModal } from "../context/AuthorizationContext";
-import { Authorization } from "../pages/authorization";
-import { Registration } from "../pages/registration";
+import { Authorization } from "./popups/authorization";
+import { Registration } from "./popups/registration";
 
 export function Header() {
   const { isModalOpen, isRegistrationOpen, openModal } =

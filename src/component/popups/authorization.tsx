@@ -1,6 +1,6 @@
-import { useAuthorizationModal } from "../context/AuthorizationContext";
-import { ModalWrapper } from "../utils/ModalWrapper";
-import { useModal } from "../utils/useModal";
+import { useAuthorizationModal } from "../../context/AuthorizationContext";
+import { ModalWrapper } from "../../utils/ModalWrapper";
+import { useModal } from "../../utils/useModal";
 
 export function Authorization() {
   const { closeModal, openRegistrationModal } = useAuthorizationModal();
