@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { useAuthorizationModal } from "../context/AuthorizationContext";
 
 export function Registration() {
+  const { openModal, closeRegistrationModal } = useAuthorizationModal();
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-45">
       <div className="bg-white w-[360px] h-[487px] pd-lg rounded-[30px] flex flex-col items-center">
@@ -34,8 +35,14 @@ export function Registration() {
         <button className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mb-[10px] text-lg font-normal leading-5 active:text-white text-center">
           Зарегистрироваться
         </button>
-        <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[280px] h-[52px] text-lg font-normal leading-5 text-center border-[1px] border-black">
-          <Link to="/login">Войти</Link>
+        <button
+          onClick={() => {
+            openModal();
+            closeRegistrationModal();
+          }}
+          className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[280px] h-[52px] text-lg font-normal leading-5 text-center border-[1px] border-black"
+        >
+          Войти
         </button>
       </div>
     </div>
