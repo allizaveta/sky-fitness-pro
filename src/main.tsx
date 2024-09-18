@@ -6,11 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthorizationProvider } from "./context/AuthorizationContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <AuthorizationProvider>
-    <BrowserRouter>
+  <BrowserRouter>
+    <AuthorizationProvider>
       <StrictMode>
         <App />
       </StrictMode>
-    </BrowserRouter>
-  </AuthorizationProvider>
+    </AuthorizationProvider>
+  </BrowserRouter>
 );
