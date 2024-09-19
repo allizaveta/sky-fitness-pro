@@ -75,12 +75,12 @@ export function Course() {
           src="/groupe.png"
           className="absolute w-[474px] h-auto bottom-[292px] right-[-17px] laptop:hidden"
         />
-        <div className="bg-white rounded-[30px] mt-[100px] relative laptop:h-[486px] p-[40px] pb-[30px] laptop:pb-0 shadow-[0px_4px_67px_-12px_rgba(0,0,0,0.13)] content-center  ">
+        <div className="bg-white rounded-[30px] mt-[100px] relative laptop:h-[486px] p-[40px] pb-[30px] laptop:pb-0 shadow-[0px_4px_67px_-12px_rgba(0,0,0,0.13)] content-center z-10 ">
           <div className="laptop:w-[437px] flex flex-col gap-[28px] justify-center">
             <p className="text-4xl laptop:text-6xl font-medium laptop:font-semibold leading-[35.2px] laptop:leading-[60px] text-left text-wrap">
               Начните путь к новому телу
             </p>
-            <div className="pl-[15px] pb-[100px]">
+            <div className="pl-[15px]">
               <ul className="list-disc opacity-60 text-2xl font-normal leading-6 list-inside text-left list-marker:space-[18px] list-marker--[30px]">
                 <li>проработка всех групп мышц</li>
                 <li>тренировка суставов</li>
@@ -89,23 +89,23 @@ export function Course() {
                 <li>помогают противостоять стрессам</li>
               </ul>
             </div>
+            <button
+              onClick={openModal}
+              className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
+            >
+              Войдите, чтобы добавить курс
+            </button>
           </div>
         </div>
         <img
           src="/lines.svg"
-          className="absolute h-[486px] bottom-[-43px] right-0 hidden  laptop:block"
+          className="absolute h-[486px] bottom-[-43px] right-0 hidden z-10 laptop:block"
         />
         <img
           src="/Mask group.png"
-          className="w-[487px] h-[542px] absolute bottom-[9px] right-0 rotate-357  hidden laptop:block"
+          className="w-[487px] h-[542px] absolute bottom-[9px] right-0 rotate-357 z-10 hidden laptop:block"
         />
       </div>
-      <button
-        onClick={openModal}
-        className="bg-custom-green hover:bg-hover-green active:bg-active-green rounded-[46px] h-[52px] w-[437px] text-lg font-normal leading-5 absolute bottom-[-620px] left-[450px]"
-      >
-        Войдите, чтобы добавить курс
-      </button>
     </div>
   );
 }
