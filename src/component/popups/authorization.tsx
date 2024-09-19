@@ -4,7 +4,7 @@ import { ModalWrapper } from "../../utils/ModalWrapper";
 export function Authorization() {
   const { closeModal, openRegistrationModal } = useAuthorizationModal();
   return (
-    <ModalWrapper containerClassName="w-[360px] h-[460px] pd-lg">
+    <ModalWrapper containerClassName="w-[360px] h-[460px] pd-lg ">
       <div className="bg-white w-[360px] h-[460px] pd-lg rounded-[30px] flex flex-col items-center">
         <img
           src="/logo (1).svg"

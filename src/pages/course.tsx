@@ -75,7 +75,7 @@ export function Course() {
           src="/groupe.png"
           className="absolute w-[474px] h-auto bottom-[292px] right-[-17px] laptop:hidden"
         />
-        <div className="bg-white rounded-[30px] mt-[100px] relative laptop:h-[486px] p-[40px] pb-[30px] laptop:pb-0 shadow-[0px_4px_67px_-12px_rgba(0,0,0,0.13)] content-center z-10 ">
+        <div className="bg-white rounded-[30px] mt-[100px] relative laptop:h-[486px] p-[40px] pb-[30px] laptop:pb-0 shadow-[0px_4px_67px_-12px_rgba(0,0,0,0.13)] content-center  ">
           <div className="laptop:w-[437px] flex flex-col gap-[28px] justify-center">
             <p className="text-4xl laptop:text-6xl font-medium laptop:font-semibold leading-[35.2px] laptop:leading-[60px] text-left text-wrap">
               Начните путь к новому телу
@@ -99,11 +99,11 @@ export function Course() {
         </div>
         <img
           src="/lines.svg"
-          className="absolute h-[486px] bottom-[-43px] right-0 hidden z-10 laptop:block"
+          className="absolute h-[486px] bottom-[-43px] right-0 hidden  laptop:block"
         />
         <img
           src="/Mask group.png"
-          className="w-[487px] h-[542px] absolute bottom-[9px] right-0 rotate-357 z-10 hidden laptop:block"
+          className="w-[487px] h-[542px] absolute bottom-[9px] right-0 rotate-357  hidden laptop:block"
         />
       </div>
     </div>

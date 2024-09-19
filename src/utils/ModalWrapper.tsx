@@ -18,9 +18,12 @@ export function ModalWrapper({
       }
     };
 
+    document.body.style.overflow = "hidden";
+
     window.addEventListener("keydown", handleEsc);
     return () => {
       window.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "unset";
     };
   }, [closeModal, closeRegistrationModal]);
 
@@ -33,7 +36,7 @@ export function ModalWrapper({
   return (
     <div
       onClick={handleOutsideClick}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-45"
+      className="z-10 fixed inset-0 flex items-center justify-center bg-black bg-opacity-45"
     >
       <div
         className={`bg-white rounded-[30px] flex flex-col items-center ${containerClassName}`}
