@@ -8,6 +8,7 @@ import { Profile } from "./pages/profile";
 import { Workout } from "./pages/workout";
 import { Layout } from "./pages/Layout";
 import RoutesPath from "./RoutesPath";
+import { Main } from "./pages/main";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         />
         <Route path={RoutesPath.LOGIN} element={<Authorization />} />
         <Route path={RoutesPath.REGISTER} element={<Registration />} />
+        <Route path={RoutesPath.HOME} element={<Main />}></Route>
       </Route>
       <Route path={RoutesPath.NOT_FOUND} element={<NotFound />} />
     </Routes>
