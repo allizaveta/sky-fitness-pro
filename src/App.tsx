@@ -21,9 +21,9 @@ function App() {
           path={`${RoutesPath.WORKOUT}/:workoutId`}
           element={<Workout />}
         />
+        <Route path={RoutesPath.LOGIN} element={<Authorization />} />
       </Route>
       <Route path={RoutesPath.REGISTER} element={<Registration />} />
-      <Route path={RoutesPath.LOGIN} element={<Authorization />} />
       <Route path={RoutesPath.NOT_FOUND} element={<NotFound />} />
     </Routes>
   );
