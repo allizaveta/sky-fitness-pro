@@ -1,16 +1,11 @@
 import { useAuthorizationModal } from "../../context/AuthorizationContext";
 import { ModalWrapper } from "../../utils/ModalWrapper";
-import { useModal } from "../../utils/useModal";
 
 export function Registration() {
   const { openModal, closeRegistrationModal } = useAuthorizationModal();
-  const handleOutsideClick = useModal(closeRegistrationModal);
   return (
     <ModalWrapper containerClassName="w-[360px] h-[487px] pd-lg">
-      <div
-        onClick={handleOutsideClick}
-        className="bg-white w-[360px] h-[487px] pd-lg rounded-[30px] flex flex-col items-center"
-      >
+      <div className="bg-white w-[360px] h-[487px] pd-lg rounded-[30px] flex flex-col items-center">
         <img
           src="/logo (1).svg"
           className="w-[220px] h-auto pt-[40px] pb-[48px]"
