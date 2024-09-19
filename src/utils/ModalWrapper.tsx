@@ -14,19 +14,22 @@ export function ModalWrapper({
   const location = useLocation();
 
   useEffect(() => {
+    // Блокируем скролл при открытии модалки
+    document.body.style.overflow = "hidden";
+
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        // Получаем текущий URL
         const currentPath = location.pathname;
-        // Ищем последний слэш и удаляем все после него
         const newPath = currentPath.substring(0, currentPath.lastIndexOf("/"));
-        // Если новый путь пустой, заменяем его на "/"
         navigate(newPath || "/");
       }
     };
+
     window.addEventListener("keydown", handleEscape);
 
     return () => {
+      // Разрешаем скролл при закрытии модалки
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleEscape);
     };
   }, [location.pathname, navigate]);
