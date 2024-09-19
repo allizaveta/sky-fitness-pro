@@ -11,6 +11,10 @@ export default {
         "hover-green": "#C6FF00",
         "active-green": "#000000",
         "inactive-btn": "#F7F7F7",
+        "hover-white": "#F7F7F7",
+        "active-white": "#E9ECED",
+        "inactive-white-btn": "#999999",
+        "error": "#DB0030",
         bg: "#FAFAFA",
       },
       padding: {

@@ -1,26 +1,28 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Main } from "./pages/main";
-import { Registration } from "./pages/registration";
+import { Registration } from "./component/popups/registration";
 import { NotFound } from "./pages/not_found";
-import { Authorization } from "./pages/authorization";
+import { Authorization } from "./component/popups/authorization";
 import { Course } from "./pages/course";
 import { Profile } from "./pages/profile";
 import { Workout } from "./pages/workout";
 import { Layout } from "./pages/Layout";
+import RoutesPath from "./RoutesPath";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Main />} />
-        <Route path="course/:courseId" element={<Course />} />
-        <Route path="profile/:userId" element={<Profile />} />
-        <Route path="workout/:workoutId" element={<Workout />} />
+      <Route path={RoutesPath.HOME} element={<Layout />}>
+        <Route path={`${RoutesPath.COURSE}/:courseId`} element={<Course />} />
+        <Route path={`${RoutesPath.PROFILE}/:userId`} element={<Profile />} />
+        <Route
+          path={`${RoutesPath.WORKOUT}/:workoutId`}
+          element={<Workout />}
+        />
+        <Route path={RoutesPath.LOGIN} element={<Authorization />} />
+        <Route path={RoutesPath.REGISTER} element={<Registration />} />
       </Route>
-      <Route path="/registration" element={<Registration />} />
-      <Route path="/login" element={<Authorization />} />
-      <Route path="/*" element={<NotFound />} />
+      <Route path={RoutesPath.NOT_FOUND} element={<NotFound />} />
     </Routes>
   );
 }
