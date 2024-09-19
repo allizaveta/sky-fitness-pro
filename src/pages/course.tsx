@@ -80,7 +80,7 @@ export function Course() {
             <p className="text-4xl laptop:text-6xl font-medium laptop:font-semibold leading-[35.2px] laptop:leading-[60px] text-left text-wrap">
               Начните путь к новому телу
             </p>
-            <div className="pl-[15px]">
+            <div className="pl-[15px] pb-[100px]">
               <ul className="list-disc opacity-60 text-2xl font-normal leading-6 list-inside text-left list-marker:space-[18px] list-marker--[30px]">
                 <li>проработка всех групп мышц</li>
                 <li>тренировка суставов</li>
@@ -89,12 +89,6 @@ export function Course() {
                 <li>помогают противостоять стрессам</li>
               </ul>
             </div>
-            <button
-              onClick={openModal}
-              className="bg-custom-green hover:bg-hover-green active:bg-active-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
-            >
-              Войдите, чтобы добавить курс
-            </button>
           </div>
         </div>
         <img
@@ -106,6 +100,12 @@ export function Course() {
           className="w-[487px] h-[542px] absolute bottom-[9px] right-0 rotate-357  hidden laptop:block"
         />
       </div>
+      <button
+        onClick={openModal}
+        className="bg-custom-green hover:bg-hover-green active:bg-active-green rounded-[46px] h-[52px] w-[437px] text-lg font-normal leading-5 absolute bottom-[-620px] left-[450px]"
+      >
+        Войдите, чтобы добавить курс
+      </button>
     </div>
   );
 }
