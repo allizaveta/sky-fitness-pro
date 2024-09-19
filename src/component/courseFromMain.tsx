@@ -6,7 +6,6 @@ interface CourseMainProps {
 }
 
 export function CourseMain({ course }: CourseMainProps) {
-  console.log(course.name, imageMappings[course.name]);
   return (
     <div className="bg-white w-[343px] laptop:w-[360px] h-[501px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px]">
       <img src={imageMappings[course.name]} alt={course.name} />

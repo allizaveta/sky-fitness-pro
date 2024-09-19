@@ -16,13 +16,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Функция для получения курсов
 export const getCourses = async (): Promise<CourseType[]> => {
   const dbRef = ref(database);
   try {
     const snapshot = await get(child(dbRef, "courses"));
     if (snapshot.exists()) {
-      return Object.values(snapshot.val()); // Возвращаем массив курсов
+      return Object.values(snapshot.val());
     } else {
       console.log("Курсы отсутствуют");
       return [];
