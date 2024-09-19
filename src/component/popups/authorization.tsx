@@ -19,12 +19,12 @@ export function Authorization() {
           <input
             placeholder="Логин"
             className="w-[280px] h-[52px] px-[18px] py-[16px] rounded-[8px] border border-[#D0CECE] opacity-100 mb-[10px]"
-            type="text"
+            type="email"
           />
           <input
             placeholder="Пароль"
             className="w-[280px] h-[52px] px-[18px] py-[16px] rounded-[8px] border border-[#D0CECE] opacity-100"
-            type="email"
+            type="password"
           />
         </div>
         {/* скрытое сообщение об ошибке */}
