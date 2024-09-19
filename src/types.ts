@@ -3,6 +3,9 @@ export interface CourseType {
   conditions: string[];
   description: string;
   directions: string[];
-  name: string;
+  fitting: string[];
+  nameRU: string;
+  nameEN: string;
+  order: number;
   workouts: string[];
 }

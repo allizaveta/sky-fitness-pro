@@ -1,10 +1,25 @@
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getCourses } from "../api";
+import { CourseType } from "../types";
 
 export function Course() {
-  const { courseId } = useParams();
+  const { courseId } = useParams<{ courseId: string }>();
+  const [course, setCourse] = useState<CourseType | null>(null);
 
-  console.log(courseId);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const courses = await getCourses();
+      const foundCourse = courses.find((c) => c._id === courseId);
+      setCourse(foundCourse || null);
+    };
 
+    fetchCourses();
+  }, [courseId]);
+
+  if (!course) {
+    return <div>Загрузка...</div>;
+  }
   return (
     <div>
       <div>
