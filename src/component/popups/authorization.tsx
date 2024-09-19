@@ -1,12 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import RoutesPath from "../../RoutesPath";
+import { useAuthorizationModal } from "../../context/AuthorizationContext";
 import { ModalWrapper } from "../../utils/ModalWrapper";
+import { useModal } from "../../utils/useModal";
 
 export function Authorization() {
-  const navigate = useNavigate();
+  const { closeModal, openRegistrationModal } = useAuthorizationModal();
+  const handleOutsideClick = useModal(closeModal);
   return (
     <ModalWrapper containerClassName="w-[360px] h-[460px] pd-lg">
-      <div className="bg-white w-[360px] h-[460px] pd-lg rounded-[30px] flex flex-col items-center">
+      <div
+        onClick={handleOutsideClick}
+        className="bg-white w-[360px] h-[460px] pd-lg rounded-[30px] flex flex-col items-center"
+      >
         <img
           src="/logo (1).svg"
           className="w-[220px] h-auto pt-[40px] pb-[48px]"
@@ -33,7 +37,10 @@ export function Authorization() {
           Войти
         </button>
         <button
-          onClick={() => navigate(RoutesPath.REGISTER)}
+          onClick={() => {
+            closeModal();
+            openRegistrationModal();
+          }}
           className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[280px] h-[52px] text-lg font-normal leading-5 text-center border-[1px] border-black"
         >
           Зарегистрироваться

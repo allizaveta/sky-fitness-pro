@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 interface ModalContextType {
   isModalOpen: boolean;
@@ -28,18 +22,6 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
 
   const openRegistrationModal = () => setIsRegistrationOpen(true);
   const closeRegistrationModal = () => setIsRegistrationOpen(false);
-
-  useEffect(() => {
-    if (isModalOpen || isRegistrationOpen) {
-      document.body.style.overflow = "hidden"; // Отключаем прокрутку
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isModalOpen, isRegistrationOpen]);
 
   return (
     <AuthorizationContext.Provider
