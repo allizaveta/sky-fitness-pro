@@ -4,16 +4,16 @@ import App from "./App.tsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { AuthorizationProvider } from "./context/AuthorizationContext.tsx";
-import { UserProvider } from "./context/userContext.tsx";
+import ReduxProvider from "./store/reduxProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <UserProvider>
+  <ReduxProvider>
+    <BrowserRouter>
       <AuthorizationProvider>
         <StrictMode>
           <App />
         </StrictMode>
       </AuthorizationProvider>
-    </UserProvider>
-  </BrowserRouter>
+    </BrowserRouter>
+  </ReduxProvider>
 );
