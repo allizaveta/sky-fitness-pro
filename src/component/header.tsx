@@ -1,15 +1,25 @@
 import { Link } from "react-router-dom";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 import RoutesPath from "../RoutesPath";
-import { useUserContext } from "../context/userContext";
+/* import { useUserContext } from "../context/userContext"; */
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { setAuth } from "../store/slices/userSlice";
+import { RootState, useAppSelector } from "../store/store";
 
 
 export function Header() {
   const { openModal } = useAuthorizationModal();
-  const { currentUser, handleLogout } = useUserContext();
+/*   const { currentUser, handleLogout } = useUserContext(); */
+const dispatch = useDispatch();
+  const { isAuth, user } = useSelector((state: RootState) => state.auth);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const handleLogout = () => {
+    dispatch(setAuth({ isAuth: false, token: null, user: null })); // Сбрасываем состояние авторизации
+  };
+ const uid = useAppSelector((state) => state.auth.user?._id)
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   return (
       <header className="flex justify-between pt-[40px] pb-[39px] laptop:pt-[50px] laptop:pb-[60px]">
@@ -21,23 +31,23 @@ export function Header() {
             Онлайн-тренировки для занятий дома
           </p>
         </div>
-        {currentUser ? (
+        {isAuth && user ? (
           <div className="relative flex flex-row items-center">
             <img src="/profilePic.svg" className="h-[42px] w-[42px]"></img>
             <button
               onClick={toggleDropdown}
               className="text-lg font-normal ml-[15px]"
             >
-              {currentUser.email}
+              {user.email}
             </button>
             <img src="/arrow.svg" className="ml-[5px]" />
             {dropdownOpen && (
               <div className="absolute right-[0px] top-[50px] bg-white shadow-lg rounded-[30px] h-[250px] w-[258px] bg-white mt-[24px]">
                 <div className="flex flex-col nowrap justify-center items-center gap-2.5 mt-[50px]">
                   <p className="font-['StratosSkyeng'] text-lg font-normal leading-[19.8px] text-left text-gray-400 text-gray mb-[24px]">
-                    {currentUser.email}
+                    {user.email}
                   </p>
-                  <Link to={`${RoutesPath.PROFILE}/${currentUser.uid}`}>
+                  <Link to={`${RoutesPath.PROFILE}/${uid}`}>
                     <button className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
                       Мой профиль
                     </button>
