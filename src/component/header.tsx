@@ -37,15 +37,17 @@ export function Header() {
                   <p className="font-['StratosSkyeng'] text-lg font-normal leading-[19.8px] text-left text-gray-400 text-gray mb-[24px]">
                     {currentUser.email}
                   </p>
-                  <button className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
-                    Мой профиль
-                  </button>
+                  <Link to={`${RoutesPath.PROFILE}/${currentUser.uid}`}>
+                    <button className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
+                      Мой профиль
+                    </button>
+                  </Link>
                   <button
                     className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[206px] h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black"
                     onClick={handleLogout}
                   >
                     Выйти
-                  </button>{" "}
+                  </button>
                 </div>
               </div>
             )}
