@@ -1,7 +1,8 @@
+import { register } from "../../api";
 import { useAuthorizationModal } from "../../context/AuthorizationContext";
 import { ModalWrapper } from "../../utils/ModalWrapper";
 import { useState } from "react";
-import { register } from "../../api";
+
 
 export function Registration() {
   const { openModal, closeRegistrationModal } = useAuthorizationModal();

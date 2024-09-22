@@ -3,7 +3,6 @@ import { Header } from "../component/header";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 import { Authorization } from "../component/popups/authorization";
 import { Registration } from "../component/popups/registration";
-import { useAuthorizationModal } from "../context/AuthorizationContext";
 
 export function Layout() {
   const { isModalOpen, isRegistrationOpen } = useAuthorizationModal();
