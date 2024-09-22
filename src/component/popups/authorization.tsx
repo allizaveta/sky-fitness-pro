@@ -3,9 +3,10 @@ import RoutesPath from "../../RoutesPath";
 import { ModalWrapper } from "../../utils/ModalWrapper";
 import { useState } from "react";
 import { auth } from "../../api";
+import { useAuthorizationModal } from "../../context/AuthorizationContext";
 
 export function Authorization() {
-  const navigate = useNavigate();
+  const { closeModal, openRegistrationModal } = useAuthorizationModal();
   const [user, setUser] = useState({
     login: "",
     password: "",
@@ -25,28 +26,37 @@ export function Authorization() {
 
   async function clickOnButton() {
     auth(user.login, user.password)
-    .then((userData) => {
-      if (userData) {
-        console.log("User signed in successfully");
-        setError("");
-        navigate(RoutesPath.HOME);
-      } else {
-        console.log('Sign-in failed');
-        setError("Ошибка авторизации, попробуйте позднее");
-      }
-    })
-    .catch((error) => {
-      console.log(error.message);
-      if (error.message == "Firebase: Error (auth/invalid-credential).") {
-        setError("Ошибка в логине или пароле. Проверьте введенные данные еще раз.");
-      } else if (error.message == "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).") {
-        setError("Слишком много попыток входа. Пожалуйста, попробуйте позднее.");
-      } else if(error.message === "Firebase: Error (auth/network-request-failed).") {
-        setError("Ошибка соединения, попробуйте позднее.");
-      } else {
-        setError("Неопознанная ошибка. Пожалуйста, попробуйте позднее.");
-      }
-    })
+      .then((userData) => {
+        if (userData) {
+          console.log("User signed in successfully");
+          setError("");
+          closeModal;
+        } else {
+          console.log("Sign-in failed");
+          setError("Ошибка авторизации, попробуйте позднее");
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        if (error.message == "Firebase: Error (auth/invalid-credential).") {
+          setError(
+            "Ошибка в логине или пароле. Проверьте введенные данные еще раз."
+          );
+        } else if (
+          error.message ==
+          "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests)."
+        ) {
+          setError(
+            "Слишком много попыток входа. Пожалуйста, попробуйте позднее."
+          );
+        } else if (
+          error.message === "Firebase: Error (auth/network-request-failed)."
+        ) {
+          setError("Ошибка соединения, попробуйте позднее.");
+        } else {
+          setError("Неопознанная ошибка. Пожалуйста, попробуйте позднее.");
+        }
+      });
   }
 
   return (
@@ -86,7 +96,10 @@ export function Authorization() {
           Войти
         </button>
         <button
-          onClick={() => navigate(RoutesPath.REGISTER)}
+          onClick={() => {
+            closeModal();
+            openRegistrationModal();
+          }}
           className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[280px] h-[52px] text-lg font-normal leading-5 text-center border-[1px] border-black"
         >
           Зарегистрироваться
