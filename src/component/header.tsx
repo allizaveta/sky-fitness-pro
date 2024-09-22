@@ -8,7 +8,6 @@ import { useState } from "react";
 
 export function Header() {
   const { openModal } = useAuthorizationModal();
-<<<<<<< my-profile
   const { currentUser, handleLogout } = useUserContext();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
