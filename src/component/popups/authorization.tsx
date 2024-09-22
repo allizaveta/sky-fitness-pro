@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import RoutesPath from "../../RoutesPath";
 import { ModalWrapper } from "../../utils/ModalWrapper";
 import { useState } from "react";
 import { auth } from "../../api";

@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import { ModalWrapper } from "../../utils/ModalWrapper";
-import RoutesPath from "../../RoutesPath";
 import { useState } from "react";
 import { register } from "../../api";
+import { useAuthorizationModal } from "../../context/AuthorizationContext";
 
 export function Registration() {
-  const navigate = useNavigate();
+  const { openModal, closeRegistrationModal } = useAuthorizationModal();
   const [error, setError] = useState("");
   const [registerData, setRegisterData] = useState({
     email: "",
@@ -34,22 +33,27 @@ export function Registration() {
     }
     setError("");
 
-    register(registerData.email, registerData.password).then((userData) => {
-      if (userData) {
-        navigate(RoutesPath.LOGIN);
-      } else {
-        setError("Ошибка в регистрации, попробуйте позднее.");
-      }
-    }).catch((error) => {
-      console.log(error.message);
-      if (error.message === "Firebase: Error (auth/email-already-in-use).") {
-        setError("Данная почта уже используется. Попробуйте войти");
-      } else if (error.mesage === "Firebase: Error (auth/network-request-failed).") {
-        setError("Ошибка соединения, попробуйте позднее.");
-      } else {
-        setError("Неопознанная ошибка, попробуйте позднее.");
-      }
-    })
+    register(registerData.email, registerData.password)
+      .then((userData) => {
+        if (userData) {
+          openModal;
+          closeRegistrationModal;
+        } else {
+          setError("Ошибка в регистрации, попробуйте позднее.");
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+          setError("Данная почта уже используется. Попробуйте войти");
+        } else if (
+          error.mesage === "Firebase: Error (auth/network-request-failed)."
+        ) {
+          setError("Ошибка соединения, попробуйте позднее.");
+        } else {
+          setError("Неопознанная ошибка, попробуйте позднее.");
+        }
+      });
   }
 
   return (
@@ -90,11 +94,17 @@ export function Registration() {
             <a href="#"> Попробуйте войти.</a>
           </p>
         )}
-        <button className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mb-[10px] text-lg font-normal leading-5 active:text-white text-center" onClick={onButton}>
+        <button
+          className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mb-[10px] text-lg font-normal leading-5 active:text-white text-center"
+          onClick={onButton}
+        >
           Зарегистрироваться
         </button>
         <button
-          onClick={() => navigate(RoutesPath.LOGIN)}
+          onClick={() => {
+            openModal();
+            closeRegistrationModal();
+          }}
           className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[280px] h-[52px] text-lg font-normal leading-5 text-center border-[1px] border-black"
         >
           Войти
