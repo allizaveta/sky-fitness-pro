@@ -1,6 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get, child } from "firebase/database";
 import { CourseType } from "./types";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBljvgb03g4dm3do27NTuMVWJlgplEvFyU",
@@ -31,3 +36,32 @@ export const getCourses = async (): Promise<CourseType[]> => {
     return [];
   }
 };
+
+export async function auth(
+  email: string,
+  password: string
+): Promise<{ uid: string }> {
+  const auth = getAuth();
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return { uid: userCredential.user.uid };
+  } catch (error) {
+    console.error("Error signing in user:", error);
+    throw error;
+  }
+}
+
+export async function register(email: string, password: string): Promise<{ uid: string }> {
+  const auth = getAuth();
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return {uid: userCredential.user.uid}
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+}

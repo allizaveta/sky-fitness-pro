@@ -8,11 +8,13 @@ import { Profile } from "./pages/profile";
 import { Workout } from "./pages/workout";
 import { Layout } from "./pages/Layout";
 import RoutesPath from "./RoutesPath";
+import { Main } from "./pages/main";
 
 function App() {
   return (
     <Routes>
-      <Route path={RoutesPath.HOME} element={<Layout />}>
+      <Route element={<Layout />}>
+        <Route path={RoutesPath.HOME} element={<Main />} />
         <Route path={`${RoutesPath.COURSE}/:courseId`} element={<Course />} />
         <Route path={`${RoutesPath.PROFILE}/:userId`} element={<Profile />} />
         <Route
