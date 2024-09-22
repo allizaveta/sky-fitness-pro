@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
-import { useUserContext } from "../context/userContext";
 import RoutesPath from "../RoutesPath";
+import { Link } from "react-router-dom";
+import { useUserContext } from "../context/userContext";
 import { useState } from "react";
 
+
 export function Header() {
+  const { openModal } = useAuthorizationModal();
+<<<<<<< my-profile
   const { currentUser, handleLogout } = useUserContext();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
