@@ -3,6 +3,7 @@ import { useAuthorizationModal } from "../context/AuthorizationContext";
 import RoutesPath from "../RoutesPath";
 
 export function Header() {
+  const { openModal } = useAuthorizationModal();
 
   return (
     <header className="flex justify-between pt-[40px] pb-[39px] laptop:pt-[50px] laptop:pb-[60px]">
