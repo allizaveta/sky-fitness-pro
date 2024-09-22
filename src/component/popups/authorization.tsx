@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/slices/userSlice";
 import { useAppSelector } from "../../store/store";
 import { auth } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 export function Authorization() {
   const { closeModal, openRegistrationModal } = useAuthorizationModal();

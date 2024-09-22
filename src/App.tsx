@@ -7,6 +7,8 @@ import { Workout } from "./pages/workout";
 import { Layout } from "./pages/Layout";
 import RoutesPath from "./RoutesPath";
 import { Main } from "./pages/main";
+import { Authorization } from "./component/popups/authorization";
+import { Registration } from "./component/popups/registration";
 
 function App() {
   return (
