@@ -19,7 +19,6 @@ function App() {
           path={`${RoutesPath.WORKOUT}/:workoutId`}
           element={<Workout />}
         />
-        <Route path={RoutesPath.HOME} element={<Main />} />
       </Route>
       <Route path={RoutesPath.NOT_FOUND} element={<NotFound />} />
     </Routes>
