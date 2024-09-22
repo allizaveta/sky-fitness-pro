@@ -27,10 +27,21 @@ export function Header() {
               {currentUser.email}
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 bg-white shadow-lg rounded">
-                <p>{currentUser.email}</p>
-                <button>Мой профиль</button>
-                <button onClick={handleLogout}>Выйти</button>{" "}
+              <div className="absolute right-0 bg-white shadow-lg rounded-[30px] h-[250px] w-[258px] bg-white mt-[24px]">
+                <div className="flex flex-col nowrap justify-center items-center gap-2.5 mt-[50px]">
+                  <p className="font-['StratosSkyeng'] text-lg font-normal leading-[19.8px] text-left text-gray-400 text-gray mb-[24px]">
+                    {currentUser.email}
+                  </p>
+                  <button className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
+                    Мой профиль
+                  </button>
+                  <button
+                    className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[206px] h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black"
+                    onClick={handleLogout}
+                  >
+                    Выйти
+                  </button>{" "}
+                </div>
               </div>
             )}
           </div>
