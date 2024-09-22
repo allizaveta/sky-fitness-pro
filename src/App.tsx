@@ -11,14 +11,14 @@ import { Main } from "./pages/main";
 function App() {
   return (
     <Routes>
-      <Route path={RoutesPath.HOME} element={<Layout />}>
+      <Route element={<Layout />}>
+        <Route path={RoutesPath.HOME} element={<Main />} />
         <Route path={`${RoutesPath.COURSE}/:courseId`} element={<Course />} />
         <Route path={`${RoutesPath.PROFILE}/:userId`} element={<Profile />} />
         <Route
           path={`${RoutesPath.WORKOUT}/:workoutId`}
           element={<Workout />}
         />
-        <Route path={RoutesPath.HOME} element={<Main />} />
       </Route>
       <Route path={RoutesPath.NOT_FOUND} element={<NotFound />} />
     </Routes>
