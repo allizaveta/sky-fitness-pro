@@ -7,19 +7,26 @@ import { Workout } from "./pages/workout";
 import { Layout } from "./pages/Layout";
 import RoutesPath from "./RoutesPath";
 import { Main } from "./pages/main";
+import { Authorization } from "./component/popups/authorization";
+import { Registration } from "./component/popups/registration";
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path={RoutesPath.HOME} element={<Main />} />
-        <Route path={`${RoutesPath.COURSE}/:courseId`} element={<Course />} />
+        <Route path={RoutesPath.HOME} element={<Main />}>
+          <Route path="login" element={<Authorization />} />
+          <Route path="registration" element={<Registration />} />
+        </Route>
+        <Route path={`${RoutesPath.COURSE}/:courseId`} element={<Course />}>
+          <Route path="login" element={<Authorization />} />
+          <Route path="registration" element={<Registration />} />
+        </Route>
         <Route path={`${RoutesPath.PROFILE}/:userId`} element={<Profile />} />
         <Route
           path={`${RoutesPath.WORKOUT}/:workoutId`}
           element={<Workout />}
         />
-        <Route path={RoutesPath.HOME} element={<Main />} />
       </Route>
       <Route path={RoutesPath.NOT_FOUND} element={<NotFound />} />
     </Routes>
