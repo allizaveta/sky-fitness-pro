@@ -9,3 +9,11 @@ export interface CourseType {
   order: number;
   workouts: string[];
 }
+
+export type UserType = {
+  _id: string;
+  name: string | null;
+  password: string;
+  email: string | null;
+  courses: CourseType[];
+}
