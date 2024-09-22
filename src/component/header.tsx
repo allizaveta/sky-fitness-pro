@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
-import RoutesPath from "../RoutesPath";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
+import RoutesPath from "../RoutesPath";
+import { Link } from "react-router-dom";
 import { useUserContext } from "../context/userContext";
 import { useState } from "react";
+
 
 export function Header() {
   const { openModal } = useAuthorizationModal();
@@ -11,7 +12,6 @@ export function Header() {
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   return (
-    <>
       <header className="flex justify-between pt-[40px] pb-[39px] laptop:pt-[50px] laptop:pb-[60px]">
         <div className="flex flex-col">
           <Link to={RoutesPath.HOME}>
@@ -61,6 +61,5 @@ export function Header() {
           </button>
         )}
       </header>
-    </>
   );
 }

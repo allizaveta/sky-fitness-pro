@@ -48,7 +48,15 @@ export async function auth(
       email,
       password
     );
-    return { uid: userCredential.user.uid };
+    const token = await userCredential.user.getIdToken();
+    return {
+      _id: userCredential.user.uid,
+      name: userCredential.user.displayName,
+      password: password,
+      email: userCredential.user.email,
+      courses: [],
+      token: token,
+    };
   } catch (error) {
     console.error("Error signing in user:", error);
     throw error;
