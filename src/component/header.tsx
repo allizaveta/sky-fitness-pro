@@ -32,7 +32,7 @@ export function Header() {
             </button>
             <img src="/arrow.svg" className="ml-[5px]" />
             {dropdownOpen && (
-              <div className="absolute right-[0px] top-[50px] bg-white shadow-lg rounded-[30px] h-[250px] w-[258px] bg-white mt-[24px]">
+              <div className="absolute right-[0px] top-[50px] shadow-lg rounded-[30px] h-[250px] w-[258px] bg-white mt-[24px]">
                 <div className="flex flex-col nowrap justify-center items-center gap-2.5 mt-[50px]">
                   <p className="font-['StratosSkyeng'] text-lg font-normal leading-[19.8px] text-left text-gray-400 text-gray mb-[24px]">
                     {currentUser.email}
