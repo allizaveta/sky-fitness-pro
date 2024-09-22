@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import { getCourses } from "../api";
 import { CourseType } from "../types";
 import { directionImages } from "../imageMapping";
+import { useAuthorizationModal } from "../context/AuthorizationContext";
 
 export function Course() {
+  const { openModal } = useAuthorizationModal();
   const { courseId } = useParams<{ courseId: string }>();
   const [course, setCourse] = useState<CourseType | null>(null);
 
@@ -87,7 +89,10 @@ export function Course() {
                 <li>помогают противостоять стрессам</li>
               </ul>
             </div>
-            <button className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5">
+            <button
+              onClick={openModal}
+              className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
+            >
               Войдите, чтобы добавить курс
             </button>
           </div>

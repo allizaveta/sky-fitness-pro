@@ -1,8 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Registration } from "./component/popups/registration";
 import { NotFound } from "./pages/not_found";
-import { Authorization } from "./component/popups/authorization";
 import { Course } from "./pages/course";
 import { Profile } from "./pages/profile";
 import { Workout } from "./pages/workout";
@@ -21,8 +19,7 @@ function App() {
           path={`${RoutesPath.WORKOUT}/:workoutId`}
           element={<Workout />}
         />
-        <Route path={RoutesPath.LOGIN} element={<Authorization />} />
-        <Route path={RoutesPath.REGISTER} element={<Registration />} />
+        <Route path={RoutesPath.HOME} element={<Main />} />
       </Route>
       <Route path={RoutesPath.NOT_FOUND} element={<NotFound />} />
     </Routes>

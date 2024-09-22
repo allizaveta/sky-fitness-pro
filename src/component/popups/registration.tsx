@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useAuthorizationModal } from "../../context/AuthorizationContext";
 import { ModalWrapper } from "../../utils/ModalWrapper";
 import RoutesPath from "../../RoutesPath";
 import { useState } from "react";
@@ -94,7 +94,9 @@ export function Registration() {
           Зарегистрироваться
         </button>
         <button
-          onClick={() => navigate(RoutesPath.LOGIN)}
+          onClick={() => {
+            navigate("login")
+          }}
           className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[280px] h-[52px] text-lg font-normal leading-5 text-center border-[1px] border-black"
         >
           Войти
