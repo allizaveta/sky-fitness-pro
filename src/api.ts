@@ -40,18 +40,33 @@ export const getCourses = async (): Promise<CourseType[]> => {
 export async function auth(
   email: string,
   password: string
-): Promise<{ uid: string }> {
+): Promise<{ name: string | null; _id: string; email: string | null; password: string; courses: CourseType[]; token: string }> {
   const auth = getAuth();
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return { uid: userCredential.user.uid };
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const token = await userCredential.user.getIdToken();
+    return {
+      _id: userCredential.user.uid,
+      name: userCredential.user.displayName,
+      password: password,
+      email: userCredential.user.email,
+      courses: [],
+      token: token,
+    };
   } catch (error) {
     console.error("Error signing in user:", error);
     throw error;
   }
 }
 
-export async function register(email: string, password: string): Promise<{ uid: string }> {
+export async function register(
+  email: string,
+  password: string
+): Promise<{ uid: string }> {
   const auth = getAuth();
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -59,7 +74,7 @@ export async function register(email: string, password: string): Promise<{ uid: 
       email,
       password
     );
-    return {uid: userCredential.user.uid}
+    return { uid: userCredential.user.uid };
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;

@@ -10,6 +10,8 @@ import { auth } from "../../api";
 export function Authorization() {
   const { closeModal, openRegistrationModal } = useAuthorizationModal();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const authSlice = useAppSelector((state) => state.auth)
   const [user, setUser] = useState({
     login: "",
     password: "",

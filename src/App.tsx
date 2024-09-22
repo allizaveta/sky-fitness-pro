@@ -12,8 +12,14 @@ function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path={RoutesPath.HOME} element={<Main />} />
-        <Route path={`${RoutesPath.COURSE}/:courseId`} element={<Course />} />
+        <Route path={RoutesPath.HOME} element={<Main />}>
+          <Route path="login" element={<Authorization />} />
+          <Route path="registration" element={<Registration />} />
+        </Route>
+        <Route path={`${RoutesPath.COURSE}/:courseId`} element={<Course />}>
+          <Route path="login" element={<Authorization />} />
+          <Route path="registration" element={<Registration />} />
+        </Route>
         <Route path={`${RoutesPath.PROFILE}/:userId`} element={<Profile />} />
         <Route
           path={`${RoutesPath.WORKOUT}/:workoutId`}
