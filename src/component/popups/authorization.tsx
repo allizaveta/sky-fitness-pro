@@ -1,9 +1,54 @@
 import { useNavigate } from "react-router-dom";
 import RoutesPath from "../../RoutesPath";
 import { ModalWrapper } from "../../utils/ModalWrapper";
+import { useState } from "react";
+import { auth } from "../../api";
 
 export function Authorization() {
   const navigate = useNavigate();
+  const [user, setUser] = useState({
+    login: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+
+    setUser({
+      ...user,
+      [name]: value,
+    });
+
+    setError("");
+  }
+
+  async function clickOnButton() {
+    auth(user.login, user.password)
+    .then((userData) => {
+      if (userData) {
+        console.log("User signed in successfully");
+        setError("");
+        navigate(RoutesPath.HOME);
+      } else {
+        console.log('Sign-in failed');
+        setError("Ошибка авторизации, попробуйте позднее");
+      }
+    })
+    .catch((error) => {
+      console.log(error.message);
+      if (error.message == "Firebase: Error (auth/invalid-credential).") {
+        setError("Ошибка в логине или пароле. Проверьте введенные данные еще раз.");
+      } else if (error.message == "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).") {
+        setError("Слишком много попыток входа. Пожалуйста, попробуйте позднее.");
+      } else if(error.message === "Firebase: Error (auth/network-request-failed).") {
+        setError("Ошибка соединения, попробуйте позднее.");
+      } else {
+        setError("Неопознанная ошибка. Пожалуйста, попробуйте позднее.");
+      }
+    })
+  }
+
   return (
     <ModalWrapper containerClassName="w-[360px] h-[460px] pd-lg">
       <div className="bg-white w-[360px] h-[460px] pd-lg rounded-[30px] flex flex-col items-center">
@@ -16,20 +61,28 @@ export function Authorization() {
             placeholder="Логин"
             className="w-[280px] h-[52px] px-[18px] py-[16px] rounded-[8px] border border-[#D0CECE] opacity-100 mb-[10px]"
             type="email"
+            name="login"
+            onChange={handleInputChange}
           />
           <input
             placeholder="Пароль"
             className="w-[280px] h-[52px] px-[18px] py-[16px] rounded-[8px] border border-[#D0CECE] opacity-100"
             type="password"
+            name="password"
+            onChange={handleInputChange}
           />
         </div>
         {/* скрытое сообщение об ошибке */}
-        <p className="text-error hidden">
-          Пароль введен неверно, попробуйте
-          <br />
-          еще раз. <a href="#">Восстановить пароль?</a>
-        </p>
-        <button className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mb-[10px] text-lg font-normal leading-5 active:text-white text-center">
+        {error !== "" ? (
+          <p className="text-error">
+            {error} <a href="#">Восстановить пароль?</a>
+          </p>
+        ) : null}
+
+        <button
+          className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mb-[10px] text-lg font-normal leading-5 active:text-white text-center"
+          onClick={clickOnButton}
+        >
           Войти
         </button>
         <button
