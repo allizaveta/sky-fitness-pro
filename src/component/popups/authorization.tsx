@@ -2,9 +2,11 @@ import { ModalWrapper } from "../../utils/ModalWrapper";
 import { useState } from "react";
 import { auth } from "../../api";
 import { useAuthorizationModal } from "../../context/AuthorizationContext";
+import { useUserContext } from "../../context/userContext";
 
 export function Authorization() {
   const { closeModal, openRegistrationModal } = useAuthorizationModal();
+  const { setCurrentUser } = useUserContext();
   const [user, setUser] = useState({
     login: "",
     password: "",
@@ -28,6 +30,7 @@ export function Authorization() {
         if (userData) {
           console.log("User signed in successfully");
           setError("");
+          setCurrentUser({ uid: userData.uid, email: user.login });
           closeModal;
         } else {
           console.log("Sign-in failed");

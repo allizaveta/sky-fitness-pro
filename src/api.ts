@@ -43,7 +43,11 @@ export async function auth(
 ): Promise<{ uid: string }> {
   const auth = getAuth();
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     return { uid: userCredential.user.uid };
   } catch (error) {
     console.error("Error signing in user:", error);
@@ -51,7 +55,10 @@ export async function auth(
   }
 }
 
-export async function register(email: string, password: string): Promise<{ uid: string }> {
+export async function register(
+  email: string,
+  password: string
+): Promise<{ uid: string }> {
   const auth = getAuth();
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -59,7 +66,7 @@ export async function register(email: string, password: string): Promise<{ uid: 
       email,
       password
     );
-    return {uid: userCredential.user.uid}
+    return { uid: userCredential.user.uid };
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;
