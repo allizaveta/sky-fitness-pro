@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -64,6 +65,7 @@ export async function auth(
 }
 
 export async function register(
+  name: string,
   email: string,
   password: string
 ): Promise<{ uid: string }> {
@@ -74,6 +76,7 @@ export async function register(
       email,
       password
     );
+    await updateProfile(userCredential.user, { displayName: name });
     return { uid: userCredential.user.uid };
   } catch (error) {
     console.error("Error creating user:", error);
