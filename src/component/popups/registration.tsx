@@ -90,7 +90,7 @@ export function Registration() {
             <a href="#"> Попробуйте войти.</a>
           </p>
         )}
-        <button className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mb-[10px] text-lg font-normal leading-5 active:text-white text-center">
+        <button className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mb-[10px] text-lg font-normal leading-5 active:text-white text-center" onClick={onButton}>
           Зарегистрироваться
         </button>
         <button
