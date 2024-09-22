@@ -1,10 +1,11 @@
-import { useState } from "react";
 import { useAuthorizationModal } from "../../context/AuthorizationContext";
 import RoutesPath from "../../RoutesPath";
 import { ModalWrapper } from "../../utils/ModalWrapper";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/slices/userSlice";
 import { useAppSelector } from "../../store/store";
+import { auth } from "../../api";
 
 export function Authorization() {
   const { closeModal, openRegistrationModal } = useAuthorizationModal();
