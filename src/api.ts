@@ -90,11 +90,23 @@ export async function register(
 }
 
 export const getUserCourses = async (userId: string): Promise<CourseType[]> => {
-  const dbRef = ref(database, `users/${userId}/courses`);
+  const userCoursesRef = ref(database, `users/${userId}/courses`);
+  const coursesRef = ref(database, "courses"); // Путь к общим курсам
   try {
-    const snapshot = await get(dbRef);
-    if (snapshot.exists()) {
-      return Object.values(snapshot.val());
+    const userCoursesSnapshot = await get(userCoursesRef);
+    const coursesSnapshot = await get(coursesRef);
+
+    if (userCoursesSnapshot.exists() && coursesSnapshot.exists()) {
+      const userCourses = userCoursesSnapshot.val();
+      const allCourses = coursesSnapshot.val();
+
+      return Object.keys(userCourses).map((courseId) => {
+        const course = allCourses[courseId];
+        return {
+          ...course,
+          _id: courseId,
+        };
+      });
     } else {
       console.log("Курсы отсутствуют");
       return [];
@@ -104,7 +116,6 @@ export const getUserCourses = async (userId: string): Promise<CourseType[]> => {
     return [];
   }
 };
-
 export const addCourseToUser = async (userId: string, courseId: string) => {
   try {
     const userRef = ref(database, `users/${userId}/courses/${courseId}`);
