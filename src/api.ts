@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, child } from "firebase/database";
+import { getDatabase, ref, get, child, update } from "firebase/database";
 import { CourseType } from "./types";
 import {
   createUserWithEmailAndPassword,
@@ -40,7 +40,14 @@ export const getCourses = async (): Promise<CourseType[]> => {
 export async function auth(
   email: string,
   password: string
-): Promise<{ name: string | null; _id: string; email: string | null; password: string; courses: CourseType[]; token: string }> {
+): Promise<{
+  name: string | null;
+  _id: string;
+  email: string | null;
+  password: string;
+  courses: CourseType[];
+  token: string;
+}> {
   const auth = getAuth();
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -80,3 +87,15 @@ export async function register(
     throw error;
   }
 }
+
+export const addCourseToUser = async (userId: string, courseId: string) => {
+  try {
+    const userRef = ref(database, `users/${userId}/courses/${courseId}`);
+    await update(userRef, { id: courseId });
+    console.log(
+      `Курс с ID ${courseId} успешно добавлен пользователю ${userId}`
+    );
+  } catch (error) {
+    console.error("Ошибка при добавлении курса пользователю:", error);
+  }
+};

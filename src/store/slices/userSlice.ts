@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserType } from "../../types";
 
-type AuthStateType =  {
+type AuthStateType = {
   isAuth: boolean;
-  token: string|null;
-  user: UserType|null;
-}
+  token: string | null;
+  user: UserType | null;
+};
 
 const initialState: AuthStateType = {
   isAuth: false,
@@ -28,8 +28,16 @@ const authSlice = createSlice({
         state.user = null;
       }
     },
+    addCourseToUser: (state, action: PayloadAction<string>) => {
+      if (state.user) {
+        state.user.courses = {
+          ...state.user.courses,
+          [action.payload]: action.payload,
+        };
+      }
+    },
   },
 });
 
-export const { setAuth } = authSlice.actions;
+export const { setAuth, addCourseToUser } = authSlice.actions;
 export const authReducer = authSlice.reducer;
