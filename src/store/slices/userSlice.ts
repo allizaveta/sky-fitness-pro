@@ -31,10 +31,20 @@ const authSlice = createSlice({
     addCourseToUser: (state, action: PayloadAction<CourseType>) => {
       if (state.user) {
         state.user.courses = [...(state.user.courses || []), action.payload];
+      } else {
+        console.error("Пользователь не инициализирован");
+      }
+    },
+    removeCourseFromUser: (state, action: PayloadAction<string>) => {
+      if (state.user) {
+        state.user.courses = state.user.courses.filter(
+          (course) => course._id !== action.payload
+        );
       }
     },
   },
 });
 
-export const { setAuth, addCourseToUser } = authSlice.actions;
+export const { setAuth, addCourseToUser, removeCourseFromUser } =
+  authSlice.actions;
 export const authReducer = authSlice.reducer;

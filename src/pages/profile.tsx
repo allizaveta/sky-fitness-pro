@@ -1,11 +1,27 @@
 import { Link } from "react-router-dom";
 import RoutesPath from "../RoutesPath";
 import { CourseType } from "../types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
+import { imageMappings } from "../imageMapping";
+import { removeCourseFromUser as removeCourseFromFirebase } from "../api";
+import { removeCourseFromUser } from "../store/slices/userSlice";
 
 export function Profile() {
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
+  const handleRemoveCourse = async (courseId: string) => {
+    if (user) {
+      try {
+        await removeCourseFromFirebase(user._id, courseId);
+        dispatch(removeCourseFromUser(courseId));
+      } catch (error) {
+        console.error("Ошибка при удалении курса:", error);
+      }
+    } else {
+      console.error("Пользователь не авторизован");
+    }
+  };
   return (
     <>
       <div className="mb-[200px]">
@@ -40,13 +56,13 @@ export function Profile() {
                 className="relative bg-white w-[360px] laptop:w-[360px] h-[649px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px]"
               >
                 <Link to={`${RoutesPath.COURSE}/${course._id}`}>
-                  {/* <img src={course.imageUrl} alt={course.nameRU} /> */}
+                  <img src={imageMappings[course.nameRU]} alt={course.nameRU} />
                 </Link>
                 <img
                   className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px] cursor-pointer"
                   src="../public/deleteCourse.png"
                   alt="Удалить курс"
-                  // Здесь нужно добавить обработчик для удаления курса
+                  onClick={() => handleRemoveCourse(course._id)}
                 />
                 <div className="p-[30px] pt-0">
                   <p className="text-3xl font-semibold leading-9 text-left pb-[20px]">

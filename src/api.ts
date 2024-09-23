@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, child, update } from "firebase/database";
+import { getDatabase, ref, get, child, update, set } from "firebase/database";
 import { CourseType } from "./types";
 import {
   createUserWithEmailAndPassword,
@@ -56,12 +56,13 @@ export async function auth(
       password
     );
     const token = await userCredential.user.getIdToken();
+    const userCourses = await getUserCourses(userCredential.user.uid);
     return {
       _id: userCredential.user.uid,
       name: userCredential.user.displayName,
       password: password,
       email: userCredential.user.email,
-      courses: [],
+      courses: userCourses,
       token: token,
     };
   } catch (error) {
@@ -88,6 +89,22 @@ export async function register(
   }
 }
 
+export const getUserCourses = async (userId: string): Promise<CourseType[]> => {
+  const dbRef = ref(database, `users/${userId}/courses`);
+  try {
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      return Object.values(snapshot.val());
+    } else {
+      console.log("Курсы отсутствуют");
+      return [];
+    }
+  } catch (error) {
+    console.error("Ошибка при получении курсов пользователя:", error);
+    return [];
+  }
+};
+
 export const addCourseToUser = async (userId: string, courseId: string) => {
   try {
     const userRef = ref(database, `users/${userId}/courses/${courseId}`);
@@ -97,5 +114,20 @@ export const addCourseToUser = async (userId: string, courseId: string) => {
     );
   } catch (error) {
     console.error("Ошибка при добавлении курса пользователю:", error);
+  }
+};
+
+export const removeCourseFromUser = async (
+  userId: string,
+  courseId: string
+) => {
+  try {
+    const courseRef = ref(database, `users/${userId}/courses/${courseId}`);
+    await set(courseRef, null);
+    console.log(
+      `Курс с ID ${courseId} успешно удален у пользователя ${userId}`
+    );
+  } catch (error) {
+    console.error("Ошибка при удалении курса:", error);
   }
 };

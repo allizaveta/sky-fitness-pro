@@ -14,7 +14,7 @@ export function CourseMain({ course }: CourseMainProps) {
   const user = useAppSelector((state) => state.auth.user);
 
   const handleAddCourse = async (event: React.MouseEvent) => {
-    event.stopPropagation(); // Останавливаем всплытие события
+    event.stopPropagation();
     event.preventDefault();
     if (user) {
       try {
