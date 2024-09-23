@@ -30,8 +30,12 @@ export function Profile() {
         <h2 className="font-roboto text-[40px] font-semibold leading-[44px] text-left text-black mb-[40px]">
           Мои курсы
         </h2>
-        <div className="bg-white w-[360px] laptop:w-[360px] h-[649px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px]">
+        <div className="relative bg-white w-[360px] laptop:w-[360px] h-[649px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px]">
           <img src="../public/MaskGroup(5).png"></img>
+          <img
+          className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px]"
+          src="../public/deleteCourse.png"
+        />
           <div className="p-[30px] pt-0">
             <p className="text-3xl font-semibold leading-9 text-left pb-[20px]">
               Йога

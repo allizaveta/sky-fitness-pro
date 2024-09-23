@@ -8,6 +8,10 @@ interface CourseMainProps {
 }
 
 export function CourseMain({ course }: CourseMainProps) {
+/* 
+  function addCourse(event) {
+    event.stopPropagation(); // Останавливаем всплытие события
+  } */
   return (
     <Link to={`${RoutesPath.COURSE}/${course._id}`}>
       <div className="bg-white w-[343px] laptop:w-[360px] h-[550px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px] relative">
