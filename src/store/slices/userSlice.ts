@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserType } from "../../types";
+import { CourseType, UserType } from "../../types";
 
 type AuthStateType = {
   isAuth: boolean;
@@ -28,12 +28,9 @@ const authSlice = createSlice({
         state.user = null;
       }
     },
-    addCourseToUser: (state, action: PayloadAction<string>) => {
+    addCourseToUser: (state, action: PayloadAction<CourseType>) => {
       if (state.user) {
-        state.user.courses = {
-          ...state.user.courses,
-          [action.payload]: action.payload,
-        };
+        state.user.courses = [...(state.user.courses || []), action.payload];
       }
     },
   },

@@ -14,14 +14,12 @@ export function CourseMain({ course }: CourseMainProps) {
   const user = useAppSelector((state) => state.auth.user);
 
   const handleAddCourse = async (event: React.MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault(); // Останавливаем всплытие события
+    event.stopPropagation(); // Останавливаем всплытие события
+    event.preventDefault();
     if (user) {
       try {
-        // Добавляем курс в Firebase
         await addCourseToFirebase(user._id, course._id);
-        // Обновляем Redux
-        dispatch(addCourseToUser(course._id));
+        dispatch(addCourseToUser(course));
       } catch (error) {
         console.error("Ошибка при добавлении курса:", error);
       }
