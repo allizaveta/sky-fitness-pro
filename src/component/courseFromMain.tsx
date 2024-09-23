@@ -10,8 +10,12 @@ interface CourseMainProps {
 export function CourseMain({ course }: CourseMainProps) {
   return (
     <Link to={`${RoutesPath.COURSE}/${course._id}`}>
-      <div className="bg-white w-[343px] laptop:w-[360px] h-[550px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px]">
+      <div className="bg-white w-[343px] laptop:w-[360px] h-[550px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px] relative">
         <img src={imageMappings[course.nameRU]} alt={course.nameRU} />
+        <img
+          className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px]"
+          src="../public/Add-in-Circle (1).svg"
+        />
         <div className="p-[30px] pt-0">
           <p className="text-3xl font-semibold leading-9 text-left pb-[20px]">
             {course.nameRU}
