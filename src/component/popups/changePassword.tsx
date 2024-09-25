@@ -1,4 +1,5 @@
 import { changePassword } from "../../api";
+import { useAuthorizationModal } from "../../context/AuthorizationContext";
 import { ModalWrapper } from "../../utils/ModalWrapper";
 import { useState } from "react";
 
@@ -7,6 +8,7 @@ export function ChangePassword() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const { closePasswordModal } = useAuthorizationModal();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,6 +18,7 @@ export function ChangePassword() {
     try {
       await changePassword(newPassword, confirmPassword);
       setSuccess(true);
+      closePasswordModal();
     } catch (err: any) {
       setError(err.message);
     }
