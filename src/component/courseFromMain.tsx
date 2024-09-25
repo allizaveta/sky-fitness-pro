@@ -59,7 +59,7 @@ export function CourseMain({ course }: CourseMainProps) {
         {isCourseAdded ? (
           <img
             className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px] cursor-pointer"
-            src="../public/deleteCourse.png"
+            src="../public/deleteCourse.svg"
             alt="Удалить курс"
             onClick={() => handleRemoveCourse(course._id)}
           />
