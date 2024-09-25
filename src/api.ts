@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  updatePassword,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -140,5 +141,31 @@ export const removeCourseFromUser = async (
     );
   } catch (error) {
     console.error("Ошибка при удалении курса:", error);
+  }
+};
+
+export const changePassword = async (
+  email: string,
+  currentPassword: string,
+  newPassword: string,
+  confirmPassword: string
+): Promise<void> => {
+  const auth = getAuth();
+
+  try {
+    if (newPassword !== confirmPassword) {
+      throw new Error("Пароли не совпадают. Пожалуйста, введите их заново.");
+    }
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      currentPassword
+    );
+
+    await updatePassword(userCredential.user, newPassword);
+    console.log("Пароль успешно изменен.");
+  } catch (error) {
+    console.error("Ошибка при изменении пароля:", error);
+    throw error;
   }
 };

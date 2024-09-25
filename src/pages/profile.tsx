@@ -6,6 +6,8 @@ import { RootState } from "../store/store";
 import { imageMappings } from "../imageMapping";
 import { removeCourseFromUser as removeCourseFromFirebase } from "../api";
 import { removeCourseFromUser } from "../store/slices/userSlice";
+import { ChangePassword } from "../component/popups/changePassword";
+import { useAuthorizationModal } from "../context/AuthorizationContext";
 
 export function Profile() {
   const dispatch = useDispatch();
@@ -22,6 +24,9 @@ export function Profile() {
       console.error("Пользователь не авторизован");
     }
   };
+
+  const { isPasswordModalOpen, openPasswordModal } = useAuthorizationModal();
+
   return (
     <>
       <div className="mb-[200px]">
@@ -38,7 +43,10 @@ export function Profile() {
             />
             <p className="text-lg">Логин: {user?.email}</p>
             <div className="flex flex-col gap-[10px] w-full">
-              <button className="bg-custom-green rounded-full w-full h-[46px] hover:bg-hover-green active:bg-active-green text-lg font-normal leading-5 text-center active:text-white">
+              <button
+                onClick={openPasswordModal}
+                className="bg-custom-green rounded-full w-full h-[46px] hover:bg-hover-green active:bg-active-green text-lg font-normal leading-5 text-center active:text-white"
+              >
                 Изменить пароль
               </button>
               <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-full h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black">
@@ -53,7 +61,10 @@ export function Profile() {
             <div className="flex flex-col gap-[30px] items-start">
               <p>Логин: {user?.email}</p>
               <div className="flex flex-row gap-[10px] ">
-                <button className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
+                <button
+                  onClick={openPasswordModal}
+                  className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white"
+                >
                   Изменить пароль
                 </button>
                 <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[206px] h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black">
@@ -116,6 +127,7 @@ export function Profile() {
           )}
         </div>
       </div>
+      {isPasswordModalOpen && <ChangePassword />}
     </>
   );
 }

@@ -3,10 +3,13 @@ import { createContext, useContext, useState, ReactNode } from "react";
 interface ModalContextType {
   isModalOpen: boolean;
   isRegistrationOpen: boolean;
+  isPasswordModalOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
   openRegistrationModal: () => void;
   closeRegistrationModal: () => void;
+  openPasswordModal: () => void;
+  closePasswordModal: () => void;
 }
 
 const AuthorizationContext = createContext<ModalContextType | undefined>(
@@ -16,6 +19,7 @@ const AuthorizationContext = createContext<ModalContextType | undefined>(
 export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -23,15 +27,21 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const openRegistrationModal = () => setIsRegistrationOpen(true);
   const closeRegistrationModal = () => setIsRegistrationOpen(false);
 
+  const openPasswordModal = () => setIsPasswordModalOpen(true);
+  const closePasswordModal = () => setIsPasswordModalOpen(false);
+
   return (
     <AuthorizationContext.Provider
       value={{
         isModalOpen,
         isRegistrationOpen,
+        isPasswordModalOpen,
         openModal,
         closeModal,
         openRegistrationModal,
         closeRegistrationModal,
+        openPasswordModal,
+        closePasswordModal,
       }}
     >
       {children}
