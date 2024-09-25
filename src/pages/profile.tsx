@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
 import { imageMappings } from "../imageMapping";
 import { removeCourseFromUser as removeCourseFromFirebase } from "../api";
-import { removeCourseFromUser } from "../store/slices/userSlice";
+import { removeCourseFromUser, setAuth } from "../store/slices/userSlice";
 import { ChangePassword } from "../component/popups/changePassword";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 
@@ -26,6 +26,10 @@ export function Profile() {
   };
 
   const { isPasswordModalOpen, openPasswordModal } = useAuthorizationModal();
+
+  const handleLogout = () => {
+    dispatch(setAuth({ isAuth: false, token: null, user: null }));
+  };
 
   return (
     <>
@@ -49,7 +53,10 @@ export function Profile() {
               >
                 Изменить пароль
               </button>
-              <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-full h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black">
+              <button
+                className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-full h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black"
+                onClick={handleLogout}
+              >
                 Выйти
               </button>
             </div>
@@ -67,7 +74,10 @@ export function Profile() {
                 >
                   Изменить пароль
                 </button>
-                <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[206px] h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black">
+                <button
+                  className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[206px] h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black"
+                  onClick={handleLogout}
+                >
                   Выйти
                 </button>
               </div>
