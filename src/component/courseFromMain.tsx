@@ -2,16 +2,74 @@ import { CourseType } from "../types";
 import { imageMappings } from "../imageMapping";
 import { Link } from "react-router-dom";
 import RoutesPath from "../RoutesPath";
-
+import { addCourseToUser as addCourseToFirebase } from "../api";
+import { removeCourseFromUser as removeCourseFromFirebase } from "../api";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import {
+  addCourseToUser,
+  removeCourseFromUser,
+} from "../store/slices/userSlice";
 interface CourseMainProps {
   course: CourseType;
 }
 
 export function CourseMain({ course }: CourseMainProps) {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+  const userCourses = user?.courses || [];
+  const isCourseAdded = userCourses.some(
+    (userCourse) => userCourse._id === course._id
+  );
+
+  const handleAddCourse = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    if (user) {
+      try {
+        await addCourseToFirebase(user._id, course._id);
+        dispatch(addCourseToUser(course));
+      } catch (error) {
+        console.error("Ошибка при добавлении курса:", error);
+      }
+    } else {
+      console.error("Пользователь не авторизован");
+    }
+  };
+
+  const handleRemoveCourse = async (courseId: string) => {
+    if (user) {
+      try {
+        await removeCourseFromFirebase(user._id, courseId);
+        dispatch(removeCourseFromUser(courseId));
+      } catch (error) {
+        console.error("Ошибка при удалении курса:", error);
+      }
+    } else {
+      console.error("Пользователь не авторизован");
+    }
+  };
+
   return (
-    <Link to={`${RoutesPath.COURSE}/${course._id}`}>
-      <div className="bg-white w-[343px] laptop:w-[360px] h-[550px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px]">
+    <Link
+      to={`${RoutesPath.COURSE}/${course._id}`}
+      className="flex justify-center"
+    >
+      <div className="bg-white w-[343px] laptop:w-[360px] h-[550px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px] relative ">
         <img src={imageMappings[course.nameRU]} alt={course.nameRU} />
+        {isCourseAdded ? (
+          <img
+            className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px] cursor-pointer"
+            src="../public/deleteCourse.png"
+            alt="Удалить курс"
+            onClick={() => handleRemoveCourse(course._id)}
+          />
+        ) : (
+          <img
+            className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px]"
+            src="../public/Add-in-Circle (1).svg"
+            onClick={handleAddCourse}
+          />
+        )}
         <div className="p-[30px] pt-0">
           <p className="text-3xl font-semibold leading-9 text-left pb-[20px]">
             {course.nameRU}

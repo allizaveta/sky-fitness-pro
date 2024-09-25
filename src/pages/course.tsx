@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCourses } from "../api";
 import { CourseType } from "../types";
-import { directionImages } from "../imageMapping";
+import { directionImages, imageMappings } from "../imageMapping";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 
 export function Course() {
@@ -33,7 +33,11 @@ export function Course() {
           src={directionImages[course.nameRU]}
           alt={course.nameRU}
         />
-        <img src="/Mask group (5).png" className="pb-[40px] laptop:hidden" />
+        <img
+          className="pb-[60px] object-fill block laptop:hidden"
+          src={imageMappings[course.nameRU]}
+          alt={course.nameRU}
+        />
         <div className="mb-[60px]">
           <p className="text-4xl font-bold leading-[44px] text-left pb-[40px]">
             Подойдет для вас, если:

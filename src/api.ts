@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, child } from "firebase/database";
+import { getDatabase, ref, get, child, update, set } from "firebase/database";
 import { CourseType } from "./types";
 import {
   createUserWithEmailAndPassword,
@@ -40,7 +40,14 @@ export const getCourses = async (): Promise<CourseType[]> => {
 export async function auth(
   email: string,
   password: string
-): Promise<{ name: string | null; _id: string; email: string | null; password: string; courses: CourseType[]; token: string }> {
+): Promise<{
+  name: string | null;
+  _id: string;
+  email: string | null;
+  password: string;
+  courses: CourseType[];
+  token: string;
+}> {
   const auth = getAuth();
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -49,12 +56,13 @@ export async function auth(
       password
     );
     const token = await userCredential.user.getIdToken();
+    const userCourses = await getUserCourses(userCredential.user.uid);
     return {
       _id: userCredential.user.uid,
       name: userCredential.user.displayName,
       password: password,
       email: userCredential.user.email,
-      courses: [],
+      courses: userCourses,
       token: token,
     };
   } catch (error) {
@@ -80,3 +88,57 @@ export async function register(
     throw error;
   }
 }
+
+export const getUserCourses = async (userId: string): Promise<CourseType[]> => {
+  const userCoursesRef = ref(database, `users/${userId}/courses`);
+  const coursesRef = ref(database, "courses"); // Путь к общим курсам
+  try {
+    const userCoursesSnapshot = await get(userCoursesRef);
+    const coursesSnapshot = await get(coursesRef);
+
+    if (userCoursesSnapshot.exists() && coursesSnapshot.exists()) {
+      const userCourses = userCoursesSnapshot.val();
+      const allCourses = coursesSnapshot.val();
+
+      return Object.keys(userCourses).map((courseId) => {
+        const course = allCourses[courseId];
+        return {
+          ...course,
+          _id: courseId,
+        };
+      });
+    } else {
+      console.log("Курсы отсутствуют");
+      return [];
+    }
+  } catch (error) {
+    console.error("Ошибка при получении курсов пользователя:", error);
+    return [];
+  }
+};
+export const addCourseToUser = async (userId: string, courseId: string) => {
+  try {
+    const userRef = ref(database, `users/${userId}/courses/${courseId}`);
+    await update(userRef, { id: courseId });
+    console.log(
+      `Курс с ID ${courseId} успешно добавлен пользователю ${userId}`
+    );
+  } catch (error) {
+    console.error("Ошибка при добавлении курса пользователю:", error);
+  }
+};
+
+export const removeCourseFromUser = async (
+  userId: string,
+  courseId: string
+) => {
+  try {
+    const courseRef = ref(database, `users/${userId}/courses/${courseId}`);
+    await set(courseRef, null);
+    console.log(
+      `Курс с ID ${courseId} успешно удален у пользователя ${userId}`
+    );
+  } catch (error) {
+    console.error("Ошибка при удалении курса:", error);
+  }
+};
