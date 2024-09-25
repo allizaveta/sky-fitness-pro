@@ -145,27 +145,25 @@ export const removeCourseFromUser = async (
 };
 
 export const changePassword = async (
-  email: string,
-  currentPassword: string,
   newPassword: string,
   confirmPassword: string
 ): Promise<void> => {
   const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("Пользователь не аутентифицирован.");
+  }
+
+  if (newPassword !== confirmPassword) {
+    throw new Error("Пароли не совпадают. Пожалуйста, введите их заново.");
+  }
 
   try {
-    if (newPassword !== confirmPassword) {
-      throw new Error("Пароли не совпадают. Пожалуйста, введите их заново.");
-    }
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      currentPassword
-    );
-
-    await updatePassword(userCredential.user, newPassword);
+    await updatePassword(user, newPassword);
     console.log("Пароль успешно изменен.");
-  } catch (error) {
-    console.error("Ошибка при изменении пароля:", error);
+  } catch (error: any) {
+    console.error("Ошибка при изменении пароля:", error.message);
     throw error;
   }
 };
