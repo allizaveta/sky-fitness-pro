@@ -29,7 +29,26 @@ export function Profile() {
           Профиль
         </h2>
         <div className="bg-white rounded-[30px] mb-[60px]">
-          <div className="p-[30px]  flex flex-row gap-[33px] items-center">
+          {/* Мобильная версия */}
+          <div className="block laptop:hidden p-[30px] flex flex-col items-center">
+            <img
+              src="../public/profile.png"
+              alt="profile pic"
+              className="w-[80px] h-[80px] mb-[20px]"
+            />
+            <p className="text-lg">Логин: {user?.email}</p>
+            <div className="flex flex-col gap-[10px] w-full">
+              <button className="bg-custom-green rounded-full w-full h-[46px] hover:bg-hover-green active:bg-active-green text-lg font-normal leading-5 text-center active:text-white">
+                Изменить пароль
+              </button>
+              <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-full h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black">
+                Выйти
+              </button>
+            </div>
+          </div>
+
+          {/* Десктопная версия */}
+          <div className="hidden laptop:flex p-[30px] flex-row gap-[33px] items-center">
             <img src="../public/profile.png" alt="profile pic" />
             <div className="flex flex-col gap-[30px] items-start">
               <p>Логин: {user?.email}</p>

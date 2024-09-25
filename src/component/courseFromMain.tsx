@@ -50,8 +50,11 @@ export function CourseMain({ course }: CourseMainProps) {
   };
 
   return (
-    <Link to={`${RoutesPath.COURSE}/${course._id}`}>
-      <div className="bg-white w-[343px] laptop:w-[360px] h-[550px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px] relative">
+    <Link
+      to={`${RoutesPath.COURSE}/${course._id}`}
+      className="flex justify-center"
+    >
+      <div className="bg-white w-[343px] laptop:w-[360px] h-[550px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px] relative ">
         <img src={imageMappings[course.nameRU]} alt={course.nameRU} />
         {isCourseAdded ? (
           <img

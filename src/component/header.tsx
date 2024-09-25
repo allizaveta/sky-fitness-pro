@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 import RoutesPath from "../RoutesPath";
-/* import { useUserContext } from "../context/userContext"; */
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -10,7 +9,6 @@ import { RootState, useAppSelector } from "../store/store";
 
 export function Header() {
   const { openModal } = useAuthorizationModal();
-  /*   const { currentUser, handleLogout } = useUserContext(); */
   const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state: RootState) => state.auth);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -37,7 +35,7 @@ export function Header() {
             onClick={toggleDropdown}
             className="text-lg font-normal ml-[15px]"
           >
-            {user.email}
+            <span className="hidden laptop:block">{user.email}</span>
           </button>
           <img src="/arrow.svg" className="ml-[5px]" />
           {dropdownOpen && (
