@@ -21,7 +21,7 @@ export function ChangePassword() {
     }
   };
   return (
-    <ModalWrapper containerClassName="w-[360px] h-[460px] pd-lg ">
+    <ModalWrapper containerClassName="w-[360px] h-[363px] pd-lg ">
       <div className="bg-white w-[360px] h-[460px] pd-lg rounded-[30px] flex flex-col items-center">
         <img
           src="/logo (1).svg"
@@ -47,7 +47,7 @@ export function ChangePassword() {
           {success && <p className="text-green-500">Пароль успешно изменен!</p>}
           {error && <div className="text-red-500">{error}</div>}
           <button
-            className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mb-[10px] text-lg font-normal leading-5 active:text-white text-center"
+            className="rounded-full bg-custom-green hover:bg-hover-green active:bg-active-green w-[280px] h-[52px] mt-[20px] text-lg font-normal leading-5 active:text-white text-center"
             type="submit"
           >
             Подтвердить
