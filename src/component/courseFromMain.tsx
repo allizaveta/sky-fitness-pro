@@ -66,7 +66,7 @@ export function CourseMain({ course }: CourseMainProps) {
         ) : (
           <img
             className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px]"
-            src="../public/Add-in-Circle (1).svg"
+            src="../public/addCourse.svg"
             onClick={handleAddCourse}
           />
         )}
