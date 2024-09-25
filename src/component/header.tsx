@@ -30,16 +30,16 @@ export function Header() {
       </div>
       {isAuth && user ? (
         <div className="relative flex flex-row items-center">
-          <img src="/profilePic.svg" className="h-[42px] w-[42px]"></img>
           <button
             onClick={toggleDropdown}
-            className="text-lg font-normal ml-[15px]"
+            className="flex items-center text-lg font-normal ml-[15px]"
           >
-            <span className="hidden laptop:block">{user.email}</span>
+            <img src="/profilePic.svg" className="h-[42px] w-[42px]" />
+            <span className="hidden laptop:block mx-[15px]">{user.email}</span>
+            <img src="/arrow.svg" className="ml-[5px]" />
           </button>
-          <img src="/arrow.svg" className="ml-[5px]" />
           {dropdownOpen && (
-            <div className="absolute right-[0px] top-[50px] shadow-lg rounded-[30px] h-[250px] w-[258px] bg-white mt-[24px]">
+            <div className="absolute right-[0px] top-[50px] shadow-lg rounded-[30px] h-[250px] w-[258px] bg-white mt-[24px] z-10">
               <div className="flex flex-col nowrap justify-center items-center gap-2.5 mt-[50px]">
                 <p className="font-['StratosSkyeng'] text-lg font-normal leading-[19.8px] text-left text-gray-400 text-gray mb-[24px]">
                   {user.email}
