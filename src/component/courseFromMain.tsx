@@ -9,6 +9,7 @@ import {
   addCourseToUser,
   removeCourseFromUser,
 } from "../store/slices/userSlice";
+import { useAuthorizationModal } from "../context/AuthorizationContext";
 interface CourseMainProps {
   course: CourseType;
 }
@@ -20,6 +21,7 @@ export function CourseMain({ course }: CourseMainProps) {
   const isCourseAdded = userCourses.some(
     (userCourse) => userCourse._id === course._id
   );
+  const { openUnauthorizedModal } = useAuthorizationModal();
 
   const handleAddCourse = async (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -32,7 +34,8 @@ export function CourseMain({ course }: CourseMainProps) {
         console.error("Ошибка при добавлении курса:", error);
       }
     } else {
-      console.error("Пользователь не авторизован");
+      openUnauthorizedModal();
+      console.log("неавторизован");
     }
   };
 
@@ -67,6 +70,7 @@ export function CourseMain({ course }: CourseMainProps) {
           <img
             className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px]"
             src="../public/addCourse.svg"
+            alt="Добавить курс"
             onClick={handleAddCourse}
           />
         )}
@@ -89,6 +93,7 @@ export function CourseMain({ course }: CourseMainProps) {
             </div>
           </div>
         </div>
+        {/*         {isUnauthorizedModalOpen && <UnauthorizedUser />} */}
       </div>
     </Link>
   );

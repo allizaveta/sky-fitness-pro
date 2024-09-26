@@ -10,8 +10,12 @@ export function ModalWrapper({
   containerClassName,
   children,
 }: ModalWrapperProps) {
-  const { closeModal, closeRegistrationModal, closePasswordModal } =
-    useAuthorizationModal();
+  const {
+    closeModal,
+    closeRegistrationModal,
+    closePasswordModal,
+    closeUnauthorizedModal,
+  } = useAuthorizationModal();
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -33,6 +37,7 @@ export function ModalWrapper({
       closeModal();
       closeRegistrationModal();
       closePasswordModal();
+      closeUnauthorizedModal();
     }
   };
   return (
