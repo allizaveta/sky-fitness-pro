@@ -6,6 +6,7 @@ interface ModalContextType {
   isPasswordModalOpen: boolean;
   isUnauthorizedModalOpen: boolean;
   isResetPasswordModalOpen: boolean;
+  resetPasswordEmail: string;
   openModal: () => void;
   closeModal: () => void;
   openRegistrationModal: () => void;
@@ -14,7 +15,7 @@ interface ModalContextType {
   closePasswordModal: () => void;
   openUnauthorizedModal: () => void;
   closeUnauthorizedModal: () => void;
-  openResetPasswordModal: () => void;
+  openResetPasswordModal: (email: string) => void;
   closeResetPasswordModal: () => void;
 }
 
@@ -29,6 +30,7 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const [isUnauthorizedModalOpen, setIsUnauthorizedModalOpen] = useState(false);
   const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] =
     useState(false);
+  const [resetPasswordEmail, setResetPasswordEmail] = useState<string>("");
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -42,7 +44,10 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const openUnauthorizedModal = () => setIsUnauthorizedModalOpen(true);
   const closeUnauthorizedModal = () => setIsUnauthorizedModalOpen(false);
 
-  const openResetPasswordModal = () => setIsResetPasswordModalOpen(true);
+  const openResetPasswordModal = (email: string) => {
+    setResetPasswordEmail(email);
+    setIsResetPasswordModalOpen(true);
+  };
   const closeResetPasswordModal = () => setIsResetPasswordModalOpen(false);
 
   return (
@@ -53,6 +58,7 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
         isPasswordModalOpen,
         isUnauthorizedModalOpen,
         isResetPasswordModalOpen,
+        resetPasswordEmail,
         openModal,
         closeModal,
         openRegistrationModal,
