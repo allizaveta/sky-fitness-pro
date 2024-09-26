@@ -5,6 +5,7 @@ interface ModalContextType {
   isRegistrationOpen: boolean;
   isPasswordModalOpen: boolean;
   isUnauthorizedModalOpen: boolean;
+  isResetPasswordModalOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
   openRegistrationModal: () => void;
@@ -13,6 +14,8 @@ interface ModalContextType {
   closePasswordModal: () => void;
   openUnauthorizedModal: () => void;
   closeUnauthorizedModal: () => void;
+  openResetPasswordModal: () => void;
+  closeResetPasswordModal: () => void;
 }
 
 const AuthorizationContext = createContext<ModalContextType | undefined>(
@@ -24,6 +27,8 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isUnauthorizedModalOpen, setIsUnauthorizedModalOpen] = useState(false);
+  const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] =
+    useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -37,6 +42,9 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const openUnauthorizedModal = () => setIsUnauthorizedModalOpen(true);
   const closeUnauthorizedModal = () => setIsUnauthorizedModalOpen(false);
 
+  const openResetPasswordModal = () => setIsResetPasswordModalOpen(true);
+  const closeResetPasswordModal = () => setIsResetPasswordModalOpen(false);
+
   return (
     <AuthorizationContext.Provider
       value={{
@@ -44,6 +52,7 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
         isRegistrationOpen,
         isPasswordModalOpen,
         isUnauthorizedModalOpen,
+        isResetPasswordModalOpen,
         openModal,
         closeModal,
         openRegistrationModal,
@@ -52,6 +61,8 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
         closePasswordModal,
         openUnauthorizedModal,
         closeUnauthorizedModal,
+        openResetPasswordModal,
+        closeResetPasswordModal,
       }}
     >
       {children}
