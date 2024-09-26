@@ -59,8 +59,8 @@ export function Registration() {
   }
 
   return (
-    <ModalWrapper containerClassName="w-[360px] h-[547px] pd-lg">
-      <div className="bg-white w-[360px] h-[487px] pd-lg rounded-[30px] flex flex-col items-center">
+    <ModalWrapper containerClassName={error === "" ? "w-[360px] h-[547px] pd-lg" : "w-[360px] h-[587px] pd-lg"}>
+      <div className="bg-white w-[360px] pd-lg rounded-[30px] flex flex-col items-center">
         <img
           src="/logo (1).svg"
           className="w-[220px] h-auto pt-[40px] pb-[48px]"
