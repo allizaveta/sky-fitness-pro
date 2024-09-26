@@ -8,6 +8,7 @@ export function Registration() {
   const { openModal, closeRegistrationModal } = useAuthorizationModal();
   const [error, setError] = useState("");
   const [registerData, setRegisterData] = useState({
+    name: "",
     email: "",
     password: "",
     passwordAgain: "",
@@ -34,11 +35,11 @@ export function Registration() {
     }
     setError("");
 
-    register(registerData.email, registerData.password)
+    register(registerData.name, registerData.email, registerData.password)
       .then((userData) => {
         if (userData) {
-          openModal;
-          closeRegistrationModal;
+          openModal();
+          closeRegistrationModal();
         } else {
           setError("Ошибка в регистрации, попробуйте позднее.");
         }
@@ -58,13 +59,20 @@ export function Registration() {
   }
 
   return (
-    <ModalWrapper containerClassName="w-[360px] h-[487px] pd-lg">
-      <div className="bg-white w-[360px] h-[487px] pd-lg rounded-[30px] flex flex-col items-center">
+    <ModalWrapper containerClassName={error === "" ? "w-[360px] h-[547px] pd-lg" : "w-[360px] h-[587px] pd-lg"}>
+      <div className="bg-white w-[360px] pd-lg rounded-[30px] flex flex-col items-center">
         <img
           src="/logo (1).svg"
           className="w-[220px] h-auto pt-[40px] pb-[48px]"
         />
         <div className="flex flex-col mb-[34px]">
+        <input
+            placeholder="Имя"
+            className="w-[280px] h-[52px] px-[18px] py-[16px] rounded-[8px] border border-[#D0CECE] opacity-100 mb-[10px]"
+            type="email"
+            name="name"
+            onChange={handleRegistration}
+          />
           <input
             placeholder="Эл. почта"
             className="w-[280px] h-[52px] px-[18px] py-[16px] rounded-[8px] border border-[#D0CECE] opacity-100 mb-[10px]"
