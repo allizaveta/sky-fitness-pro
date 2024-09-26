@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RoutesPath from "../RoutesPath";
 import { CourseType } from "../types";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,6 +22,9 @@ export function Profile() {
       console.error("Пользователь не авторизован");
     }
   };
+
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="mb-[200px]">
@@ -30,7 +33,7 @@ export function Profile() {
         </h2>
         <div className="bg-white rounded-[30px] mb-[60px]">
           {/* Мобильная версия */}
-          <div className="block laptop:hidden p-[30px] flex flex-col items-center">
+          <div className="laptop:hidden p-[30px] flex flex-col items-center">
             <img
               src="../public/profile.png"
               alt="profile pic"
@@ -105,7 +108,7 @@ export function Profile() {
                     </div>
                   </div>
                   <p>Прогресс: 40%</p>
-                  <button className="bg-custom-green rounded-full w-[300px] h-[52px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
+                  <button className="bg-custom-green rounded-full w-[300px] h-[52px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white" onClick={() => navigate(`/${RoutesPath.WORKOUT}/${course.workouts[0]}`)}>
                     Продолжить
                   </button>
                 </div>

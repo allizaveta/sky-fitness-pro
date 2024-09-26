@@ -17,3 +17,17 @@ export type UserType = {
   email: string | null;
   courses: CourseType[];
 }
+
+export type ExerciseType = {
+  name: string;
+  amount: number;
+};
+
+export type WorkoutType = {
+  _id: string;
+  name: string; 
+  video: string;
+  course: string;
+  number: number;
+  exercises?: ExerciseType[];
+}

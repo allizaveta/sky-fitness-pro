@@ -145,3 +145,22 @@ export const removeCourseFromUser = async (
     console.error("Ошибка при удалении курса:", error);
   }
 };
+
+export async function getWorkout (id: string | undefined) {
+  if (!id) {
+    return null;
+  } 
+
+  try {
+    const workoutRef = ref(database, `workouts/${id}`);
+    const workoutSnapshot = await get(workoutRef);
+    if (workoutSnapshot.exists()) {
+      return workoutSnapshot.val();
+    } else {
+      throw new Error("такой тренировки не существует");
+    }
+  }
+  catch (error) {
+    console.error("Ошибка при получении тренировки:", error);
+  }
+}
