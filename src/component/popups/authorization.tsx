@@ -4,7 +4,6 @@ import { ModalWrapper } from "../../utils/ModalWrapper";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/slices/userSlice";
-import { useAppSelector } from "../../store/store";
 import { auth } from "../../api";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +11,6 @@ export function Authorization() {
   const { closeModal, openRegistrationModal } = useAuthorizationModal();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const authSlice = useAppSelector((state) => state.auth)
   const [user, setUser] = useState({
     login: "",
     password: "",
@@ -42,7 +40,6 @@ export function Authorization() {
           email: userData.email,
           courses: userData.courses,
         }, token: userData.token}));
-        console.log(authSlice);
         setError("");
         navigate(RoutesPath.HOME);
       } else {

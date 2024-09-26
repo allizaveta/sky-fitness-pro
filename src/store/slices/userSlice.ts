@@ -8,9 +8,9 @@ type AuthStateType = {
 };
 
 const initialState: AuthStateType = {
-  isAuth: false,
+  isAuth: localStorage.user ? true : false,
   token: null,
-  user: null,
+  user: localStorage.user ? JSON.parse(localStorage.getItem("user") as string) : null,
 };
 
 const authSlice = createSlice({
@@ -22,10 +22,14 @@ const authSlice = createSlice({
         state.isAuth = action.payload.isAuth;
         state.token = action.payload.token;
         state.user = action.payload.user;
+        if (action.payload.user?._id) {
+          localStorage.setItem("user", JSON.stringify(action.payload.user));
+        }
       } else {
         state.isAuth = false;
         state.token = null;
         state.user = null;
+        localStorage.removeItem("user");
       }
     },
     addCourseToUser: (state, action: PayloadAction<CourseType>) => {
