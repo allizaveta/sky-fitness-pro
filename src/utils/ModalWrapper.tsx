@@ -15,6 +15,7 @@ export function ModalWrapper({
     closeRegistrationModal,
     closePasswordModal,
     closeUnauthorizedModal,
+    closeResetPasswordModal,
   } = useAuthorizationModal();
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -38,6 +39,7 @@ export function ModalWrapper({
       closeRegistrationModal();
       closePasswordModal();
       closeUnauthorizedModal();
+      closeResetPasswordModal();
     }
   };
   return (
