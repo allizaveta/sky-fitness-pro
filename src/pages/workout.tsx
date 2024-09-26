@@ -3,10 +3,12 @@ import { getWorkout } from "../api";
 import { useEffect, useState } from "react";
 import { WorkoutType } from "../types";
 import YouTube from "react-youtube";
+import { ModalWrapper } from "../utils/ModalWrapper";
 
 export function Workout() {
   const { workoutId } = useParams();
   const [workout, setWorkout] = useState<WorkoutType | null>(null);
+  const [exercise, setExercise] = useState(false);
 
   useEffect(() => {
     getWorkout(workoutId)
@@ -31,13 +33,13 @@ export function Workout() {
       <div className="video">
         {workout?.video && (
           <YouTube
-          videoId={workout.video}
-          opts={{
-            width: "100%",
-            height: "100%",
-          }}
-          className="w-full h-[189px] laptop:h-[639px]"
-        />
+            videoId={workout.video}
+            opts={{
+              width: "100%",
+              height: "100%",
+            }}
+            className="w-full h-[189px] laptop:h-[639px]"
+          />
         )}
       </div>
       <div className="flex flex-col exercise rounded-[30px] bg-white shadow-[0px_4px_67px_-12px_rgba(0,0,0,0.13)] mb-[94px] laptop:mb-[200px] p-[30px] laptop:p-[40px]">
@@ -60,10 +62,46 @@ export function Workout() {
             })}
           </div>
         </div>
-        <button className="bg-custom-green rounded-full w-[283px] h-[52px] laptop:w-[320px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
+        <button
+          className="bg-custom-green rounded-full w-[283px] h-[52px] laptop:w-[320px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white"
+          onClick={() => setExercise(true)}
+        >
           Заполнить свой прогресс
         </button>
       </div>
+      {exercise && (
+        <ModalWrapper containerClassName="w-426 p-[40px] flex flex-col gap-[48px]">
+          <h3 className="font-StratosSkyeng text-4xl font-normal leading-[35.2px] text-left">
+            Мой прогресс
+          </h3>
+          <div className="flex flex-col gap-[34px]">
+            <div className="flex flex-col gap-[20px]">
+              {workout?.exercises?.map((el, id) => {
+                return (
+                  <div key={id}>
+                    <p className="font-roboto text-sm font-normal leading-[19.8px] text-left mb-[10px]">
+                      Сколько раз вы сделали {el.name.toLowerCase()}?
+                    </p>
+                    <input
+                      placeholder="0"
+                      className="p-4 pl-4.5 pr-4.5 rounded-lg border border-solid border-[#D0CECE] w-[320px]"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              className="bg-custom-green rounded-full w-[283px] h-[52px] laptop:w-[320px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white"
+              onClick={() => {
+                console.log("Сохраняю");
+                setExercise(false);
+              }}
+            >
+              Сохранить
+            </button>
+          </div>
+        </ModalWrapper>
+      )}
     </div>
   );
 }
