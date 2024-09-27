@@ -35,7 +35,6 @@ export function CourseMain({ course }: CourseMainProps) {
       }
     } else {
       openUnauthorizedModal();
-      console.log("неавторизован");
     }
   };
 
