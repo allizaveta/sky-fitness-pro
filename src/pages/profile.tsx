@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RoutesPath from "../RoutesPath";
 import { CourseType } from "../types";
 import { useSelector, useDispatch } from "react-redux";
@@ -26,9 +26,10 @@ export function Profile() {
   };
 
   const { isPasswordModalOpen, openPasswordModal } = useAuthorizationModal();
-
+  const nav = useNavigate();
   const handleLogout = () => {
     dispatch(setAuth({ isAuth: false, token: null, user: null }));
+    nav(RoutesPath.HOME);
   };
 
   return (
