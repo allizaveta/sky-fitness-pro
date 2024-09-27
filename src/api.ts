@@ -29,7 +29,6 @@ export const getCourses = async (): Promise<CourseType[]> => {
     if (snapshot.exists()) {
       return Object.values(snapshot.val());
     } else {
-      console.log("Курсы отсутствуют");
       return [];
     }
   } catch (error) {
@@ -109,7 +108,6 @@ export const getUserCourses = async (userId: string): Promise<CourseType[]> => {
         };
       });
     } else {
-      console.log("Курсы отсутствуют");
       return [];
     }
   } catch (error) {
@@ -121,9 +119,6 @@ export const addCourseToUser = async (userId: string, courseId: string) => {
   try {
     const userRef = ref(database, `users/${userId}/courses/${courseId}`);
     await update(userRef, { id: courseId });
-    console.log(
-      `Курс с ID ${courseId} успешно добавлен пользователю ${userId}`
-    );
   } catch (error) {
     console.error("Ошибка при добавлении курса пользователю:", error);
   }
@@ -136,9 +131,6 @@ export const removeCourseFromUser = async (
   try {
     const courseRef = ref(database, `users/${userId}/courses/${courseId}`);
     await set(courseRef, null);
-    console.log(
-      `Курс с ID ${courseId} успешно удален у пользователя ${userId}`
-    );
   } catch (error) {
     console.error("Ошибка при удалении курса:", error);
   }
@@ -161,7 +153,6 @@ export const changePassword = async (
 
   try {
     await updatePassword(user, newPassword);
-    console.log("Пароль успешно изменен.");
   } catch (error: any) {
     console.error("Ошибка при изменении пароля:", error.message);
     throw error;

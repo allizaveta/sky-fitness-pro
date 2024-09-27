@@ -4,7 +4,6 @@ import { ModalWrapper } from "../../utils/ModalWrapper";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/slices/userSlice";
-import { useAppSelector } from "../../store/store";
 import { auth } from "../../api";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +12,6 @@ export function Authorization() {
     useAuthorizationModal();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const authSlice = useAppSelector((state) => state.auth);
   const [user, setUser] = useState({
     login: "",
     password: "",
@@ -35,7 +33,6 @@ export function Authorization() {
     auth(user.login, user.password)
       .then((userData) => {
         if (userData) {
-          console.log("User signed in successfully", userData);
           dispatch(
             setAuth({
               isAuth: true,
@@ -49,12 +46,10 @@ export function Authorization() {
               token: userData.token,
             })
           );
-          console.log(authSlice);
           closeModal();
           setError("");
           navigate(RoutesPath.HOME);
         } else {
-          console.log("Sign-in failed");
           setError("Ошибка авторизации, попробуйте позднее");
         }
       })
