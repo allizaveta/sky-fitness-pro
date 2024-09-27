@@ -1,14 +1,26 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCourses } from "../api";
+import { addCourseToUser as addCourseToFirebase } from "../api";
+import { removeCourseFromUser as removeCourseFromFirebase } from "../api";
 import { CourseType } from "../types";
 import { directionImages, imageMappings } from "../imageMapping";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
+import { RootState, useAppDispatch } from "../store/store";
+import { useSelector } from "react-redux";
+import {
+  addCourseToUser,
+  removeCourseFromUser,
+} from "../store/slices/userSlice";
 
 export function Course() {
   const { openModal } = useAuthorizationModal();
   const { courseId } = useParams<{ courseId: string }>();
   const [course, setCourse] = useState<CourseType | null>(null);
+  const { isAuth, user } = useSelector((state: RootState) => state.auth);
+  const { openUnauthorizedModal } = useAuthorizationModal();
+  const userCourses = user?.courses || [];
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -23,6 +35,36 @@ export function Course() {
   if (!course) {
     return <div>Загрузка...</div>;
   }
+
+  const isCourseAdded = userCourses.some(
+    (userCourse) => userCourse._id === course._id
+  );
+
+  const handleAddCourse = async () => {
+    if (user) {
+      try {
+        await addCourseToFirebase(user._id, course._id);
+        dispatch(addCourseToUser(course));
+      } catch (error) {
+        console.error("Ошибка при добавлении курса:", error);
+      }
+    } else {
+      openUnauthorizedModal();
+    }
+  };
+
+  const handleRemoveCourse = async (courseId: string) => {
+    if (user) {
+      try {
+        await removeCourseFromFirebase(user._id, courseId);
+        dispatch(removeCourseFromUser(courseId));
+      } catch (error) {
+        console.error("Ошибка при удалении курса:", error);
+      }
+    } else {
+      console.error("Пользователь не авторизован");
+    }
+  };
 
   const { directions, fitting } = course;
   return (
@@ -93,12 +135,30 @@ export function Course() {
                 <li>помогают противостоять стрессам</li>
               </ul>
             </div>
-            <button
-              onClick={openModal}
-              className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
-            >
-              Войдите, чтобы добавить курс
-            </button>
+            {isAuth && user ? (
+              isCourseAdded ? (
+                <button
+                  onClick={() => handleRemoveCourse(course._id)}
+                  className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
+                >
+                  Удалить курс
+                </button>
+              ) : (
+                <button
+                  onClick={handleAddCourse}
+                  className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
+                >
+                  Добавить курс
+                </button>
+              )
+            ) : (
+              <button
+                onClick={openModal}
+                className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
+              >
+                Войдите, чтобы добавить курс
+              </button>
+            )}
           </div>
         </div>
         <img

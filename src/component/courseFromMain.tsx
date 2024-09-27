@@ -38,7 +38,13 @@ export function CourseMain({ course }: CourseMainProps) {
     }
   };
 
-  const handleRemoveCourse = async (courseId: string) => {
+  const handleRemoveCourse = async (
+    event: React.MouseEvent,
+    courseId: string
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+
     if (user) {
       try {
         await removeCourseFromFirebase(user._id, courseId);
@@ -63,7 +69,7 @@ export function CourseMain({ course }: CourseMainProps) {
             className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px] cursor-pointer"
             src="../public/deleteCourse.svg"
             alt="Удалить курс"
-            onClick={() => handleRemoveCourse(course._id)}
+            onClick={(event) => handleRemoveCourse(event, course._id)}
           />
         ) : (
           <img
