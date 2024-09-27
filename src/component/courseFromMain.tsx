@@ -93,7 +93,6 @@ export function CourseMain({ course }: CourseMainProps) {
             </div>
           </div>
         </div>
-        {/*         {isUnauthorizedModalOpen && <UnauthorizedUser />} */}
       </div>
     </Link>
   );

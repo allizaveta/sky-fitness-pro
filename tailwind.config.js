@@ -17,6 +17,9 @@ export default {
         "error": "#DB0030",
         bg: "#FAFAFA",
       },
+      scale: {
+        '130': '1.30',
+      },
       padding: {
         "pd-lg": "calc(50% - 580px)",
         "pd-s": "16px",

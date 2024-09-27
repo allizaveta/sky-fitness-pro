@@ -102,12 +102,8 @@ export function Course() {
           </div>
         </div>
         <img
-          src="/lines.svg"
-          className="absolute h-[486px] bottom-[-43px] right-0 hidden z-10 laptop:block"
-        />
-        <img
-          src="/Mask group.png"
-          className="w-[487px] h-[542px] absolute bottom-[9px] right-0 rotate-357 z-10 hidden laptop:block"
+          src="/manFromCourse.svg"
+          className="absolute h-[486px] bottom-[-16px] right-[80px] scale-130 right-0 hidden z-10 laptop:block"
         />
       </div>
     </div>
