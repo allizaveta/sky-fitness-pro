@@ -58,6 +58,7 @@ export async function auth(
     );
     const token = await userCredential.user.getIdToken();
     const userCourses = await getUserCourses(userCredential.user.uid);
+    console.log(userCredential);
     return {
       _id: userCredential.user.uid,
       name: userCredential.user.displayName,
