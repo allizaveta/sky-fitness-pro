@@ -1,50 +1,23 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Deploy https://skypro-fitness.netlify.app
 
-Currently, two official plugins are available:
+# Страница курсов (главная).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+На странице отображены все курсы, имеющиеся в базе данных. Курсы отображаются вне зависимости от статуса авторизации. При нажатии на кнопку «Наверх» происходит скролл в самое начало страницы.
 
-## Expanding the ESLint configuration
+# Страница авторизации/регистрации.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+На странице пользователь имеет возможность войти в приложение или зарегистрироваться. Если данные были введены некорректно, пользователю показывается ошибка в соответствии с макетом.
 
-- Configure the top-level `parserOptions` property like this:
+# Страница отдельного курса.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+По клику на выбранный курс неавторизованный пользователь или пользователь, не приобретавший данный курс, попадает на страницу, где может ознакомиться с его описанием. Если пользователь авторизован, то ему будет предложено добавить курс, иначе будет выведено предложение авторизоваться.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+# Страница профиля.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+На странице «Мой профиль» пользователь должен иметь возможность просматривать и редактировать свои данные (сменить пароль). Также у пользователя есть возможность ознакомиться с приобретенными курсами и начать тренировку.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+# Страница тренировки.
+
+По клику на выбранную тренировку в своем профиле пользователь попадает на страницу, где может открывать материалы урока (видеоролики на ютубе). У каждого урока есть определенные задания и возможность заполнить свой прогресс.
