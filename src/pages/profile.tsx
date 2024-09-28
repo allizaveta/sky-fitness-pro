@@ -71,6 +71,9 @@ export function Profile() {
               alt="profile pic"
               className="w-[80px] h-[80px] mb-[20px]"
             />
+            <h2 className="text-2xl font-medium leading-[35.2px] text-left">
+              {user?.name}
+            </h2>
             <p className="text-lg">Логин: {user?.email}</p>
             <div className="flex flex-col gap-[10px] w-full">
               <button className="bg-custom-green rounded-full w-full h-[46px] hover:bg-hover-green active:bg-active-green text-lg font-normal leading-5 text-center active:text-white">
@@ -86,6 +89,9 @@ export function Profile() {
           <div className="hidden laptop:flex p-[30px] flex-row gap-[33px] items-center">
             <img src="../public/profile.png" alt="profile pic" />
             <div className="flex flex-col gap-[30px] items-start">
+              <h2 className="text-2xl font-medium leading-[35.2px] text-left">
+                {user?.name}
+              </h2>
               <p>Логин: {user?.email}</p>
               <div className="flex flex-row gap-[10px] ">
                 <button className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
@@ -155,7 +161,7 @@ export function Profile() {
                     <div className="w-[283px] h-[6px] bg-inactive-btn rounded-full mb-[10px]">
                       <div
                         className={`w-custom h-[6px] bg-exercise-blue rounded-full`}
-                        style={{ width: `${percent*300}px` }}
+                        style={{ width: `${percent * 300}px` }}
                       />
                     </div>
 
