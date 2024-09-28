@@ -6,6 +6,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   updatePassword,
+  updateProfile,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -72,6 +73,7 @@ export async function auth(
 }
 
 export async function register(
+  name: string,
   email: string,
   password: string
 ): Promise<{ uid: string }> {
@@ -82,6 +84,7 @@ export async function register(
       email,
       password
     );
+    await updateProfile(userCredential.user, { displayName: name });
     return { uid: userCredential.user.uid };
   } catch (error) {
     console.error("Error creating user:", error);
@@ -135,6 +138,78 @@ export const removeCourseFromUser = async (
     console.error("Ошибка при удалении курса:", error);
   }
 };
+
+export async function getWorkout(id: string | undefined) {
+  if (!id) {
+    return null;
+  }
+
+  try {
+    const workoutRef = ref(database, `workouts/${id}`);
+    const workoutSnapshot = await get(workoutRef);
+    if (workoutSnapshot.exists()) {
+      return workoutSnapshot.val();
+    } else {
+      throw new Error("такой тренировки не существует");
+    }
+  } catch (error) {
+    console.error("Ошибка при получении тренировки:", error);
+  }
+}
+
+export async function getCourseProgress(userId: string) {
+  const userCoursesProgressRef = ref(database, `users/${userId}/courses`);
+  try {
+    const userCoursesProgressSnapshot = await get(userCoursesProgressRef);
+    if (userCoursesProgressSnapshot.exists()) {
+      const userCourseProgres = userCoursesProgressSnapshot.val();
+      return userCourseProgres;
+    }
+  } catch (e) {
+    console.error("Ошибка при получении прогресса курса:", e);
+    return null;
+  }
+}
+
+export async function addWorkoutProgress(
+  userId: string,
+  courseId: string,
+  workoutId: string,
+  values: number[],
+  isDone: boolean
+) {
+  try {
+    const userProgressRef = ref(
+      database,
+      `users/${userId}/courses/${courseId}/workouts/${workoutId}`
+    );
+    await update(userProgressRef, { values: values, isDone: isDone });
+  } catch (error) {
+    console.error("Ошибка при добавлении курса пользователю:", error);
+  }
+}
+
+export async function getWorkoutProgress(
+  userId: string,
+  courseId: string,
+  workoutId: string
+) {
+  try {
+    const userProgressRef = ref(
+      database,
+      `users/${userId}/courses/${courseId}/workouts/${workoutId}/values`
+    );
+    const snapshot = await get(userProgressRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Ошибка при получении прогресса пользователю:", error);
+    return null;
+  }
+}
 
 export const changePassword = async (
   newPassword: string,
