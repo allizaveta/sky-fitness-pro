@@ -7,6 +7,7 @@ interface ModalContextType {
   isUnauthorizedModalOpen: boolean;
   isResetPasswordModalOpen: boolean;
   resetPasswordEmail: string;
+  exercise: boolean;
   openModal: () => void;
   closeModal: () => void;
   openRegistrationModal: () => void;
@@ -17,6 +18,8 @@ interface ModalContextType {
   closeUnauthorizedModal: () => void;
   openResetPasswordModal: (email: string) => void;
   closeResetPasswordModal: () => void;
+  openExercise: () => void;
+  closeExercise: () => void;
 }
 
 const AuthorizationContext = createContext<ModalContextType | undefined>(
@@ -30,6 +33,7 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const [isUnauthorizedModalOpen, setIsUnauthorizedModalOpen] = useState(false);
   const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] =
     useState(false);
+  const [exercise, setExercise] = useState(false);
   const [resetPasswordEmail, setResetPasswordEmail] = useState<string>("");
 
   const openModal = () => setIsModalOpen(true);
@@ -43,6 +47,9 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
 
   const openUnauthorizedModal = () => setIsUnauthorizedModalOpen(true);
   const closeUnauthorizedModal = () => setIsUnauthorizedModalOpen(false);
+
+  const openExercise = () => setExercise(true);
+  const closeExercise = () => setExercise(false);
 
   const openResetPasswordModal = (email: string) => {
     setResetPasswordEmail(email);
@@ -59,6 +66,7 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
         isUnauthorizedModalOpen,
         isResetPasswordModalOpen,
         resetPasswordEmail,
+        exercise,
         openModal,
         closeModal,
         openRegistrationModal,
@@ -69,6 +77,8 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
         closeUnauthorizedModal,
         openResetPasswordModal,
         closeResetPasswordModal,
+        openExercise,
+        closeExercise,
       }}
     >
       {children}
