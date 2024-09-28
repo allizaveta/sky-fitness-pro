@@ -16,12 +16,17 @@ export default {
         "inactive-white-btn": "#999999",
         "error": "#DB0030",
         bg: "#FAFAFA",
+        "exercise-blue": "#00C1FF"
       },
       padding: {
         "pd-lg": "calc(50% - 580px)",
         "pd-s": "16px",
       },
+      width: {
+        'custom': 'var(width)',
+      },
     },
   },
+  variants: {},
   plugins: [],
 };
