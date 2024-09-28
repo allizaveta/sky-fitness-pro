@@ -1,5 +1,3 @@
-export function NotFound () {
-    return (
-        <div>This page isn't found</div>
-    )
+export function NotFound() {
+  return <div>Страница не найдена</div>;
 }
