@@ -5,7 +5,12 @@ import { Authorization } from "../component/popups/authorization";
 import { Registration } from "../component/popups/registration";
 
 export function Layout() {
-  const { isModalOpen, isRegistrationOpen } = useAuthorizationModal();
+  const {
+    isModalOpen,
+    isRegistrationOpen,
+    isUnauthorizedModalOpen,
+    isResetPasswordModalOpen,
+  } = useAuthorizationModal();
 
   return (
     <div className="bg-bg pr-pd-s pl-pd-s laptop:pr-pd-lg laptop:pl-pd-lg">
