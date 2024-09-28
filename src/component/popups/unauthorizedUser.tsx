@@ -9,7 +9,7 @@ export function UnauthorizedUser() {
         src="/logo (1).svg"
         className="w-[220px] h-auto pt-[40px] pb-[48px]"
       />
-      <p>Войдите чтобы добавить курс</p>
+      <p>Войдите, чтобы добавить курс</p>
       <button
         onClick={() => {
           closeUnauthorizedModal();
