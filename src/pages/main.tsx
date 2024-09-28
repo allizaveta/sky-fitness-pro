@@ -2,20 +2,26 @@ import { useEffect, useState } from "react";
 import { getCourses } from "../api";
 import { CourseMain } from "../component/courseFromMain";
 import { CourseType } from "../types";
+import { Loading } from "../component/loading";
 
 export function Main() {
   const [courses, setCourses] = useState<CourseType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const fetchedCourses = await getCourses();
-      setCourses(fetchedCourses);
+      getCourses().then((res) => {
+        setIsLoading(false);
+        setCourses(res);
+      });
     };
 
     fetchCourses();
   }, []);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div>
       <div className="flex justify-between pb-[34px] laptop:pb-[50px]">
         <p className="text-2xl laptop:text-5xl font-medium leading-relaxed laptop:leading-none text-left break-words">

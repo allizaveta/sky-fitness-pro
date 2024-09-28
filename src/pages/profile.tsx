@@ -10,6 +10,7 @@ import {
 } from "../api";
 import { removeCourseFromUser } from "../store/slices/userSlice";
 import { useEffect, useState } from "react";
+import { Loading } from "../component/loading";
 
 type CourseProgressType = {
   [key: string]: {
@@ -29,6 +30,7 @@ export function Profile() {
   const [coursesProgress, setCoursesProgress] = useState<CourseProgressType>(
     {}
   );
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleRemoveCourse = async (courseId: string) => {
     if (user) {
@@ -51,13 +53,17 @@ export function Profile() {
 
   useEffect(() => {
     async function fetchCourseProgress() {
-      getCourseProgress(user?._id ?? "");
+      getCourseProgress(user?._id ?? "").then(() => {
+        setIsLoading(false);
+      });
       setCoursesProgress(await getCourseProgress(user?._id ?? ""));
     }
     fetchCourseProgress();
   }, [user]);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <div className="mb-[200px]">
         <h2 className="font-roboto text-[40px] font-semibold leading-[44px] text-left text-black mb-[40px]">

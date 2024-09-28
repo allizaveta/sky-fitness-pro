@@ -25,6 +25,9 @@ export default {
       width: {
         'custom': 'var(width)',
       },
+      height: {
+        'custom': 'calc(100vh - 130px)',
+      }
     },
   },
   variants: {},
