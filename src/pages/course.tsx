@@ -4,6 +4,12 @@ import { getCourses } from "../api";
 import { CourseType } from "../types";
 import { directionImages, imageMappings } from "../imageMapping";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
+import { RootState, useAppDispatch } from "../store/store";
+import { useSelector } from "react-redux";
+import {
+  addCourseToUser,
+  removeCourseFromUser,
+} from "../store/slices/userSlice";
 import { Loading } from "../component/loading";
 
 export function Course() {
@@ -11,6 +17,10 @@ export function Course() {
   const { courseId } = useParams<{ courseId: string }>();
   const [course, setCourse] = useState<CourseType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { isAuth, user } = useSelector((state: RootState) => state.auth);
+  const { openUnauthorizedModal } = useAuthorizationModal();
+  const userCourses = user?.courses || [];
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -19,7 +29,6 @@ export function Course() {
         const foundCourse = res.find((c) => c._id === courseId);
         setCourse(foundCourse || null);
       });
-      
     };
 
     fetchCourses();
@@ -30,7 +39,9 @@ export function Course() {
   }
 
   const { directions, fitting } = course;
-  return isLoading ? <Loading /> : (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div>
       <div>
         <img
