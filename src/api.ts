@@ -167,8 +167,8 @@ export async function getWorkout (id: string | undefined) {
   }
 }
 
-export async function getCourseProgress (userId: string, courseId: string) {
-  const userCoursesProgressRef = ref(database, `users/${userId}/courses/${courseId}/workouts`);
+export async function getCourseProgress (userId: string) {
+  const userCoursesProgressRef = ref(database, `users/${userId}/courses`);
   try {
     const userCoursesProgressSnapshot = await get(userCoursesProgressRef);
     if (userCoursesProgressSnapshot.exists()) {
@@ -181,11 +181,11 @@ export async function getCourseProgress (userId: string, courseId: string) {
   }
 }
 
-export async function addWorkoutProgress(userId: string, courseId: string, workoutId: string, values: number[]
+export async function addWorkoutProgress(userId: string, courseId: string, workoutId: string, values: number[], isDone: boolean
 ) {
   try {
     const userProgressRef = ref(database, `users/${userId}/courses/${courseId}/workouts/${workoutId}`);
-    await update(userProgressRef, {values: values});
+    await update(userProgressRef, {values: values, isDone: isDone});
   } catch (error) {
     console.error("Ошибка при добавлении курса пользователю:", error);
   }

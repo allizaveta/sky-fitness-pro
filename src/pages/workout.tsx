@@ -32,12 +32,16 @@ export function Workout() {
     }
   }
 
-  async function onSaveButton() {
+  function onSaveButton() {
     console.log(amountOfExercises, courseId);
+    console.log(workout?.exercises);
+    const isDone = amountOfExercises.every((el, index) => {
+      return workout?.exercises && el >= workout.exercises[index + 1]?.amount;
+    });
+    console.log(isDone);
 
     if (user && courseId && workoutId) {
-      addWorkoutProgress(user._id, courseId, workoutId, amountOfExercises).then((res) => {
-        console.log(res);
+      addWorkoutProgress(user._id, courseId, workoutId, amountOfExercises, isDone ?? false).then(() => {
         setExercise(false);
       }).catch((e) => {
         setError(e.message);
@@ -58,7 +62,6 @@ export function Workout() {
 
     if (user && courseId && workoutId) {
       getWorkoutProgress(user._id, courseId, workoutId).then((values) => {
-        console.log("values: ", values);
         if (values !== null) {
           setAmountOfExercises(values);
         } else {
@@ -137,7 +140,7 @@ export function Workout() {
                       Сколько раз вы сделали {el.name.toLowerCase()}?
                     </p>
                     <input
-                      placeholder={amountOfExercises[id - 1].toString()}
+                      placeholder={amountOfExercises[id - 1] ? amountOfExercises[id - 1].toString(): (el.amount ?? '').toString()}
                       className="p-4 pl-4.5 pr-4.5 rounded-lg border border-solid border-[#D0CECE] w-[320px]"
                       name={`${id - 1}`}
                       onChange={handleInputChange}
