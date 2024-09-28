@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  updatePassword,
   updateProfile,
 } from "firebase/auth";
 
@@ -148,10 +149,10 @@ export const removeCourseFromUser = async (
   }
 };
 
-export async function getWorkout (id: string | undefined) {
+export async function getWorkout(id: string | undefined) {
   if (!id) {
     return null;
-  } 
+  }
 
   try {
     const workoutRef = ref(database, `workouts/${id}`);
@@ -161,13 +162,12 @@ export async function getWorkout (id: string | undefined) {
     } else {
       throw new Error("такой тренировки не существует");
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Ошибка при получении тренировки:", error);
   }
 }
 
-export async function getCourseProgress (userId: string) {
+export async function getCourseProgress(userId: string) {
   const userCoursesProgressRef = ref(database, `users/${userId}/courses`);
   try {
     const userCoursesProgressSnapshot = await get(userCoursesProgressRef);
@@ -181,19 +181,34 @@ export async function getCourseProgress (userId: string) {
   }
 }
 
-export async function addWorkoutProgress(userId: string, courseId: string, workoutId: string, values: number[], isDone: boolean
+export async function addWorkoutProgress(
+  userId: string,
+  courseId: string,
+  workoutId: string,
+  values: number[],
+  isDone: boolean
 ) {
   try {
-    const userProgressRef = ref(database, `users/${userId}/courses/${courseId}/workouts/${workoutId}`);
-    await update(userProgressRef, {values: values, isDone: isDone});
+    const userProgressRef = ref(
+      database,
+      `users/${userId}/courses/${courseId}/workouts/${workoutId}`
+    );
+    await update(userProgressRef, { values: values, isDone: isDone });
   } catch (error) {
     console.error("Ошибка при добавлении курса пользователю:", error);
   }
 }
 
-export async function getWorkoutProgress(userId: string, courseId: string, workoutId: string) {
+export async function getWorkoutProgress(
+  userId: string,
+  courseId: string,
+  workoutId: string
+) {
   try {
-    const userProgressRef = ref(database, `users/${userId}/courses/${courseId}/workouts/${workoutId}/values`);
+    const userProgressRef = ref(
+      database,
+      `users/${userId}/courses/${courseId}/workouts/${workoutId}/values`
+    );
     const snapshot = await get(userProgressRef);
     if (snapshot.exists()) {
       return snapshot.val();
@@ -205,3 +220,25 @@ export async function getWorkoutProgress(userId: string, courseId: string, worko
     return null;
   }
 }
+export const changePassword = async (
+  newPassword: string,
+  confirmPassword: string
+): Promise<void> => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("Пользователь не аутентифицирован.");
+  }
+
+  if (newPassword !== confirmPassword) {
+    throw new Error("Пароли не совпадают. Пожалуйста, введите их заново.");
+  }
+
+  try {
+    await updatePassword(user, newPassword);
+  } catch (error: any) {
+    console.error("Ошибка при изменении пароля:", error.message);
+    throw error;
+  }
+};
