@@ -7,6 +7,7 @@ import { ModalWrapper } from "../utils/ModalWrapper";
 import { arr } from "../utils/array";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { Loading } from "../component/loading";
 
 export function Workout() {
   const { workoutId } = useParams();
@@ -16,6 +17,7 @@ export function Workout() {
   const [amountOfExercises, setAmountOfExercises] = useState<number[]>([]);
   const courseId = arr.find((el) => el.workouts.includes(workoutId ?? ""))?.id;
   const user = useSelector((state: RootState) => state.auth.user);
+  const [isLoading, setIsLoading] = useState(true);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -55,6 +57,7 @@ export function Workout() {
     getWorkout(workoutId)
       .then((workout) => {
         setWorkout(workout);
+        setIsLoading(false);
       })
       .catch((e) => {
         console.error(e);
@@ -73,7 +76,7 @@ export function Workout() {
     }
   }, [workoutId, user, courseId]);
 
-  return (
+  return isLoading ? <Loading /> : (
     <div className="flex flex-col gap-[24px] laptop:gap-[40px]">
       <div className="header">
         <h1 className="font-roboto text-lg laptop:text-6xl font-medium leading-6 laptop:leading-none text-left mb-[10px] laptop:mb-[14px]">

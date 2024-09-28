@@ -4,28 +4,33 @@ import { getCourses } from "../api";
 import { CourseType } from "../types";
 import { directionImages, imageMappings } from "../imageMapping";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
+import { Loading } from "../component/loading";
 
 export function Course() {
   const { openModal } = useAuthorizationModal();
   const { courseId } = useParams<{ courseId: string }>();
   const [course, setCourse] = useState<CourseType | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const courses = await getCourses();
-      const foundCourse = courses.find((c) => c._id === courseId);
-      setCourse(foundCourse || null);
+      getCourses().then((res) => {
+        setIsLoading(false);
+        const foundCourse = res.find((c) => c._id === courseId);
+        setCourse(foundCourse || null);
+      });
+      
     };
 
     fetchCourses();
   }, [courseId]);
 
   if (!course) {
-    return <div>Загрузка...</div>;
+    return <Loading />;
   }
 
   const { directions, fitting } = course;
-  return (
+  return isLoading ? <Loading /> : (
     <div>
       <div>
         <img
