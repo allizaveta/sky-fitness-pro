@@ -83,7 +83,7 @@ export function Profile() {
           {/* Мобильная версия */}
           <div className="laptop:hidden p-[30px] flex flex-col items-center">
             <img
-              src="../public/profile.png"
+              src="../profile.png"
               alt="profile pic"
               className="w-[80px] h-[80px] mb-[20px]"
             />
@@ -109,7 +109,7 @@ export function Profile() {
 
           {/* Десктопная версия */}
           <div className="hidden laptop:flex p-[30px] flex-row gap-[33px] items-center">
-            <img src="../public/profile.png" alt="profile pic" />
+            <img src="../profile.png" alt="profile pic" />
             <div className="flex flex-col gap-[30px] items-start">
               <h2 className="text-2xl font-medium leading-[35.2px] text-left">
                 {user?.name}
@@ -158,7 +158,7 @@ export function Profile() {
                   </Link>
                   <img
                     className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px] cursor-pointer"
-                    src="../public/deleteCourse.svg"
+                    src="../deleteCourse.svg"
                     alt="Удалить курс"
                     onClick={() => handleRemoveCourse(course._id)}
                   />
