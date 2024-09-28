@@ -109,7 +109,7 @@ export function Profile() {
 
           {/* Десктопная версия */}
           <div className="hidden laptop:flex p-[30px] flex-row gap-[33px] items-center">
-            <img src="../public/profile.png" alt="profile pic" />
+            <img src="../../public/profile.png" alt="profile pic" />
             <div className="flex flex-col gap-[30px] items-start">
               <h2 className="text-2xl font-medium leading-[35.2px] text-left">
                 {user?.name}
