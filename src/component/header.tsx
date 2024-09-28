@@ -18,6 +18,9 @@ export function Header() {
     dispatch(setAuth({ isAuth: false, token: null, user: null }));
     nav(RoutesPath.HOME);
   };
+  const closeDropDown = () => {
+    setDropdownOpen(false);
+  };
   const uid = useAppSelector((state) => state.auth.user?._id);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   return (
@@ -47,7 +50,10 @@ export function Header() {
                   {user.email}
                 </p>
                 <Link to={`${RoutesPath.PROFILE}/${uid}`}>
-                  <button className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
+                  <button
+                    onClick={closeDropDown}
+                    className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white"
+                  >
                     Мой профиль
                   </button>
                 </Link>
