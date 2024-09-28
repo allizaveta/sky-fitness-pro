@@ -33,8 +33,8 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const [isUnauthorizedModalOpen, setIsUnauthorizedModalOpen] = useState(false);
   const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] =
     useState(false);
-  const [exercise, setExercise] = useState(false);
   const [resetPasswordEmail, setResetPasswordEmail] = useState<string>("");
+  const [exercise, setExercise] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -48,14 +48,14 @@ export function AuthorizationProvider({ children }: { children: ReactNode }) {
   const openUnauthorizedModal = () => setIsUnauthorizedModalOpen(true);
   const closeUnauthorizedModal = () => setIsUnauthorizedModalOpen(false);
 
-  const openExercise = () => setExercise(true);
-  const closeExercise = () => setExercise(false);
-
   const openResetPasswordModal = (email: string) => {
     setResetPasswordEmail(email);
     setIsResetPasswordModalOpen(true);
   };
   const closeResetPasswordModal = () => setIsResetPasswordModalOpen(false);
+
+  const openExercise = () => setExercise(true);
+  const closeExercise = () => setExercise(false);
 
   return (
     <AuthorizationContext.Provider
