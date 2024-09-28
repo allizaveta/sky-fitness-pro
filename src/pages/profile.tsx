@@ -4,10 +4,25 @@ import { CourseType } from "../types";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
 import { imageMappings } from "../imageMapping";
-import { removeCourseFromUser as removeCourseFromFirebase } from "../api";
-import { removeCourseFromUser, setAuth } from "../store/slices/userSlice";
-import { ChangePassword } from "../component/popups/changePassword";
-import { useAuthorizationModal } from "../context/AuthorizationContext";
+import {
+  getCourseProgress,
+  removeCourseFromUser as removeCourseFromFirebase,
+} from "../api";
+import { removeCourseFromUser } from "../store/slices/userSlice";
+import { useEffect, useState } from "react";
+import { Loading } from "../component/loading";
+
+type CourseProgressType = {
+  [key: string]: {
+    id: string;
+    workouts?: {
+      [key: string]: {
+        isDone: boolean;
+        values: number[];
+      };
+    };
+  };
+};
 
 export function Profile() {
   const dispatch = useDispatch();
@@ -25,14 +40,25 @@ export function Profile() {
     }
   };
 
-  const { isPasswordModalOpen, openPasswordModal } = useAuthorizationModal();
-  const nav = useNavigate();
-  const handleLogout = () => {
-    dispatch(setAuth({ isAuth: false, token: null, user: null }));
-    nav(RoutesPath.HOME);
-  };
+  const navigate = useNavigate();
 
-  return (
+  function continueButton(course: CourseType, id: number) {
+    navigate(`/${RoutesPath.WORKOUT}/${course.workouts[id]}`);
+  }
+
+  useEffect(() => {
+    async function fetchCourseProgress() {
+      getCourseProgress(user?._id ?? "").then(() => {
+        setIsLoading(false);
+      });
+      setCoursesProgress(await getCourseProgress(user?._id ?? ""));
+    }
+    fetchCourseProgress();
+  }, [user]);
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <div className="mb-[200px]">
         <h2 className="font-roboto text-[40px] font-semibold leading-[44px] text-left text-black mb-[40px]">
