@@ -35,12 +35,15 @@ export function Header() {
             className="flex items-center text-lg font-normal ml-[15px]"
           >
             <img src="/profilePic.svg" className="h-[42px] w-[42px]" />
-            <span className="hidden laptop:block mx-[15px]">{user.email}</span>
-            <img src="/arrow.svg" className="ml-[5px]" />
+            <span className="hidden laptop:block mx-[15px]">{user.name}</span>
+            <img src="/arrow.svg" />
           </button>
           {dropdownOpen && (
-            <div className="absolute right-[0px] top-[50px] shadow-lg rounded-[30px] h-[250px] w-[258px] bg-white mt-[24px] z-10">
+            <div className="absolute right-[0px] top-[50px] shadow-lg rounded-[30px] h-[264px] w-[258px] bg-white mt-[24px] z-10">
               <div className="flex flex-col nowrap justify-center items-center gap-2.5 mt-[50px]">
+                <p className="font-['StratosSkyeng'] text-lg font-normal leading-[19.8px] text-left text-black-400 text-gray">
+                  {user.name}
+                </p>
                 <p className="font-['StratosSkyeng'] text-lg font-normal leading-[19.8px] text-left text-gray-400 text-gray mb-[24px]">
                   {user.email}
                 </p>
@@ -50,7 +53,7 @@ export function Header() {
                   </button>
                 </Link>
                 <button
-                  className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[206px] h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black"
+                  className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[206px] h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black "
                   onClick={handleLogout}
                 >
                   Выйти

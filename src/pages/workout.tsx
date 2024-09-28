@@ -7,12 +7,13 @@ import { ModalWrapper } from "../utils/ModalWrapper";
 import { arr } from "../utils/array";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { useAuthorizationModal } from "../context/AuthorizationContext";
 import { Loading } from "../component/loading";
 
 export function Workout() {
   const { workoutId } = useParams();
   const [workout, setWorkout] = useState<WorkoutType | null>(null);
-  const [exercise, setExercise] = useState(false);
+  const { openExercise, closeExercise, exercise } = useAuthorizationModal();
   const [error, setError] = useState("");
   const [amountOfExercises, setAmountOfExercises] = useState<number[]>([]);
   const courseId = arr.find((el) => el.workouts.includes(workoutId ?? ""))?.id;
@@ -42,11 +43,19 @@ export function Workout() {
     console.log(isDone);
 
     if (user && courseId && workoutId) {
-      addWorkoutProgress(user._id, courseId, workoutId, amountOfExercises, isDone ?? false).then(() => {
-        setExercise(false);
-      }).catch((e) => {
-        setError(e.message);
-      });
+      addWorkoutProgress(
+        user._id,
+        courseId,
+        workoutId,
+        amountOfExercises,
+        isDone ?? false
+      )
+        .then(() => {
+          closeExercise();
+        })
+        .catch((e) => {
+          setError(e.message);
+        });
     } else {
       console.error("User is not logged in or authenticated");
     }
@@ -103,7 +112,10 @@ export function Workout() {
           </h2>
           <div className="flex flex-col laptop:grid">
             {workout?.exercises?.map((el, id) => {
-              const percent = amountOfExercises[id - 1] / el.amount > 100 ? 283 : Math.round((283 * (amountOfExercises[id - 1]) / el.amount));
+              const percent =
+                amountOfExercises[id - 1] / el.amount > 100
+                  ? 283
+                  : Math.round((283 * amountOfExercises[id - 1]) / el.amount);
               return (
                 <div key={id}>
                   <p className="font-roboto text-sm font-normal leading-5 text-left mb-[10px]">
@@ -112,7 +124,7 @@ export function Workout() {
                   <div className="w-[283px] h-[6px] bg-inactive-btn rounded-full">
                     <div
                       className={`w-custom h-[6px] bg-exercise-blue rounded-full`}
-                      style={{ 'width': `${percent}px` }}
+                      style={{ width: `${percent}px` }}
                     />
                   </div>
                 </div>
@@ -122,7 +134,7 @@ export function Workout() {
         </div>
         <button
           className="bg-custom-green rounded-full w-[283px] h-[52px] laptop:w-[320px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white"
-          onClick={() => setExercise(true)}
+          onClick={() => openExercise()}
         >
           Заполнить свой прогресс
         </button>
@@ -141,7 +153,11 @@ export function Workout() {
                       Сколько раз вы сделали {el.name.toLowerCase()}?
                     </p>
                     <input
-                      placeholder={amountOfExercises[id - 1] ? amountOfExercises[id - 1].toString(): (el.amount ?? '').toString()}
+                      placeholder={
+                        amountOfExercises[id - 1]
+                          ? amountOfExercises[id - 1].toString()
+                          : (el.amount ?? "").toString()
+                      }
                       className="p-4 pl-4.5 pr-4.5 rounded-lg border border-solid border-[#D0CECE] w-[320px]"
                       name={`${id - 1}`}
                       onChange={handleInputChange}
