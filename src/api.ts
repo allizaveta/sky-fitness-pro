@@ -210,7 +210,6 @@ export async function getWorkoutProgress(
     return null;
   }
 }
-
 export const changePassword = async (
   newPassword: string,
   confirmPassword: string
