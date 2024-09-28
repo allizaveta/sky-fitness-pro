@@ -36,12 +36,9 @@ export function Workout() {
   }
 
   function onSaveButton() {
-    console.log(amountOfExercises, courseId);
-    console.log(workout?.exercises);
     const isDone = amountOfExercises.every((el, index) => {
       return workout?.exercises && el >= workout.exercises[index + 1]?.amount;
     });
-    console.log(isDone);
 
     if (user && courseId && workoutId) {
       addWorkoutProgress(
@@ -85,7 +82,9 @@ export function Workout() {
     }
   }, [workoutId, user, courseId]);
 
-  return isLoading ? <Loading /> : (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="flex flex-col gap-[24px] laptop:gap-[40px]">
       <div className="header">
         <h1 className="font-roboto text-lg laptop:text-6xl font-medium leading-6 laptop:leading-none text-left mb-[10px] laptop:mb-[14px]">

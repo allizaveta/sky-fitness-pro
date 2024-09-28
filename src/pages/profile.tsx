@@ -8,9 +8,11 @@ import {
   getCourseProgress,
   removeCourseFromUser as removeCourseFromFirebase,
 } from "../api";
-import { removeCourseFromUser } from "../store/slices/userSlice";
+import { removeCourseFromUser, setAuth } from "../store/slices/userSlice";
 import { useEffect, useState } from "react";
 import { Loading } from "../component/loading";
+import { useAuthorizationModal } from "../context/AuthorizationContext";
+import { ChangePassword } from "../component/popups/changePassword";
 
 type CourseProgressType = {
   [key: string]: {
@@ -25,6 +27,7 @@ type CourseProgressType = {
 };
 
 export function Profile() {
+  const { openPasswordModal, isPasswordModalOpen } = useAuthorizationModal();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
   const [coursesProgress, setCoursesProgress] = useState<CourseProgressType>(
@@ -60,6 +63,13 @@ export function Profile() {
     }
     fetchCourseProgress();
   }, [user]);
+
+  const nav = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(setAuth({ isAuth: false, token: null, user: null }));
+    nav(RoutesPath.HOME);
+  };
 
   return isLoading ? (
     <Loading />
@@ -126,7 +136,7 @@ export function Profile() {
           Мои курсы
         </h2>
 
-        <div className="flex flex-wrap gap-6">
+        <div className="flex gap-[24px] flex-col laptop:grid laptop:grid-cols-3 laptop:gap-[40px] pb-[34px] items-center">
           {user?.courses && user.courses.length > 0 ? (
             user.courses.map((course: CourseType) => {
               const thisCourse = coursesProgress[course._id]?.workouts;
@@ -134,8 +144,6 @@ export function Profile() {
                 ? Object.values(thisCourse).filter((x) => x.isDone).length
                 : 0;
               const percent = doneWorkouts / course.workouts.length;
-
-              console.log(doneWorkouts, percent);
 
               return (
                 <div
@@ -175,8 +183,10 @@ export function Profile() {
                         <p className="self-center">Сложность</p>
                       </div>
                     </div>
-                    <p>Прогресс: {percent * 100}%</p>
-                    <div className="w-[283px] h-[6px] bg-inactive-btn rounded-full mb-[10px]">
+                    <p className="mt-[20px]">
+                      Прогресс: {Math.round(percent * 100)}%
+                    </p>
+                    <div className="w-[283px] h-[6px] bg-inactive-btn rounded-full mb-[15px]">
                       <div
                         className={`w-custom h-[6px] bg-exercise-blue rounded-full`}
                         style={{ width: `${percent * 300}px` }}
