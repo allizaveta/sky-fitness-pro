@@ -73,10 +73,6 @@ export function Authorization() {
         } else {
           setError("Неопознанная ошибка. Пожалуйста, попробуйте позднее.");
         }
-        if (error.message === "Firebase: Error (auth/invalid-credential).") {
-          closeModal();
-          openResetPasswordModal(user.login);
-        }
       });
   }
 
