@@ -7,6 +7,7 @@ import { ModalWrapper } from "../utils/ModalWrapper";
 import { arr } from "../utils/array";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { useAuthorizationModal } from "../context/AuthorizationContext";
 import { Loading } from "../component/loading";
 
 export function Workout() {
