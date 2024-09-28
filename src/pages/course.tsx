@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCourses } from "../api";
+import { addCourseToUser as addCourseToFirebase } from "../api";
+import { removeCourseFromUser as removeCourseFromFirebase } from "../api";
 import { CourseType } from "../types";
 import { directionImages, imageMappings } from "../imageMapping";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
@@ -37,6 +39,36 @@ export function Course() {
   if (!course) {
     return <Loading />;
   }
+
+  const isCourseAdded = userCourses.some(
+    (userCourse) => userCourse._id === course._id
+  );
+
+  const handleAddCourse = async () => {
+    if (user) {
+      try {
+        await addCourseToFirebase(user._id, course._id);
+        dispatch(addCourseToUser(course));
+      } catch (error) {
+        console.error("Ошибка при добавлении курса:", error);
+      }
+    } else {
+      openUnauthorizedModal();
+    }
+  };
+
+  const handleRemoveCourse = async (courseId: string) => {
+    if (user) {
+      try {
+        await removeCourseFromFirebase(user._id, courseId);
+        dispatch(removeCourseFromUser(courseId));
+      } catch (error) {
+        console.error("Ошибка при удалении курса:", error);
+      }
+    } else {
+      console.error("Пользователь не авторизован");
+    }
+  };
 
   const { directions, fitting } = course;
   return isLoading ? (
@@ -109,21 +141,35 @@ export function Course() {
                 <li>помогают противостоять стрессам</li>
               </ul>
             </div>
-            <button
-              onClick={openModal}
-              className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
-            >
-              Войдите, чтобы добавить курс
-            </button>
+            {isAuth && user ? (
+              isCourseAdded ? (
+                <button
+                  onClick={() => handleRemoveCourse(course._id)}
+                  className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
+                >
+                  Удалить курс
+                </button>
+              ) : (
+                <button
+                  onClick={handleAddCourse}
+                  className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
+                >
+                  Добавить курс
+                </button>
+              )
+            ) : (
+              <button
+                onClick={openModal}
+                className="bg-custom-green rounded-[46px] h-[52px] w-[100%] text-lg font-normal leading-5"
+              >
+                Войдите, чтобы добавить курс
+              </button>
+            )}
           </div>
         </div>
         <img
-          src="/lines.svg"
-          className="absolute h-[486px] bottom-[-43px] right-0 hidden z-10 laptop:block"
-        />
-        <img
-          src="/Mask group.png"
-          className="w-[487px] h-[542px] absolute bottom-[9px] right-0 rotate-357 z-10 hidden laptop:block"
+          src="/manFromCourse.svg"
+          className="absolute h-[486px] bottom-[-16px] right-[80px] scale-130 right-0 hidden z-10 laptop:block"
         />
       </div>
     </div>

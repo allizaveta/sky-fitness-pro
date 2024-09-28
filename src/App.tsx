@@ -9,6 +9,7 @@ import RoutesPath from "./RoutesPath";
 import { Main } from "./pages/main";
 import { Authorization } from "./component/popups/authorization";
 import { Registration } from "./component/popups/registration";
+import { PrivateRoute } from "./PrivatRoute";
 
 function App() {
   return (
@@ -22,7 +23,14 @@ function App() {
           <Route path="login" element={<Authorization />} />
           <Route path="registration" element={<Registration />} />
         </Route>
-        <Route path={`${RoutesPath.PROFILE}/:userId`} element={<Profile />} />
+        <Route
+          path={`${RoutesPath.PROFILE}/:userId`}
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
         <Route
           path={`${RoutesPath.WORKOUT}/:workoutId`}
           element={<Workout />}

@@ -82,10 +82,16 @@ export function Profile() {
             </h2>
             <p className="text-lg">Логин: {user?.email}</p>
             <div className="flex flex-col gap-[10px] w-full">
-              <button className="bg-custom-green rounded-full w-full h-[46px] hover:bg-hover-green active:bg-active-green text-lg font-normal leading-5 text-center active:text-white">
+              <button
+                onClick={openPasswordModal}
+                className="bg-custom-green rounded-full w-full h-[46px] hover:bg-hover-green active:bg-active-green text-lg font-normal leading-5 text-center active:text-white"
+              >
                 Изменить пароль
               </button>
-              <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-full h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black">
+              <button
+                className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-full h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black"
+                onClick={handleLogout}
+              >
                 Выйти
               </button>
             </div>
@@ -100,10 +106,16 @@ export function Profile() {
               </h2>
               <p>Логин: {user?.email}</p>
               <div className="flex flex-row gap-[10px] ">
-                <button className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white">
+                <button
+                  onClick={openPasswordModal}
+                  className="bg-custom-green rounded-full w-[206px] h-[46px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white"
+                >
                   Изменить пароль
                 </button>
-                <button className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[206px] h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black">
+                <button
+                  className="rounded-full bg-white hover:bg-hover-white active:bg-active-white w-[206px] h-[46px] text-lg font-normal leading-5 text-center border-[1px] border-black"
+                  onClick={handleLogout}
+                >
                   Выйти
                 </button>
               </div>
@@ -186,6 +198,7 @@ export function Profile() {
           )}
         </div>
       </div>
+      {isPasswordModalOpen && <ChangePassword />}
     </>
   );
 }

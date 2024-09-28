@@ -9,6 +9,7 @@ import {
   addCourseToUser,
   removeCourseFromUser,
 } from "../store/slices/userSlice";
+import { useAuthorizationModal } from "../context/AuthorizationContext";
 interface CourseMainProps {
   course: CourseType;
 }
@@ -20,6 +21,7 @@ export function CourseMain({ course }: CourseMainProps) {
   const isCourseAdded = userCourses.some(
     (userCourse) => userCourse._id === course._id
   );
+  const { openUnauthorizedModal } = useAuthorizationModal();
 
   const handleAddCourse = async (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -32,11 +34,17 @@ export function CourseMain({ course }: CourseMainProps) {
         console.error("Ошибка при добавлении курса:", error);
       }
     } else {
-      console.error("Пользователь не авторизован");
+      openUnauthorizedModal();
     }
   };
 
-  const handleRemoveCourse = async (courseId: string) => {
+  const handleRemoveCourse = async (
+    event: React.MouseEvent,
+    courseId: string
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+
     if (user) {
       try {
         await removeCourseFromFirebase(user._id, courseId);
@@ -61,12 +69,13 @@ export function CourseMain({ course }: CourseMainProps) {
             className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px] cursor-pointer"
             src="../public/deleteCourse.svg"
             alt="Удалить курс"
-            onClick={() => handleRemoveCourse(course._id)}
+            onClick={(event) => handleRemoveCourse(event, course._id)}
           />
         ) : (
           <img
             className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px]"
             src="../public/addCourse.svg"
+            alt="Добавить курс"
             onClick={handleAddCourse}
           />
         )}

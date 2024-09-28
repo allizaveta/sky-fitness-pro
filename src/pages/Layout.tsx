@@ -3,6 +3,8 @@ import { Header } from "../component/header";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 import { Authorization } from "../component/popups/authorization";
 import { Registration } from "../component/popups/registration";
+import { UnauthorizedUser } from "../component/popups/unauthorizedUser";
+import { ResetPassword } from "../component/popups/resetPassword";
 
 export function Layout() {
   const {
@@ -17,6 +19,8 @@ export function Layout() {
       <Outlet />
       {isModalOpen && <Authorization />}
       {isRegistrationOpen && <Registration />}
+      {isUnauthorizedModalOpen && <UnauthorizedUser />}
+      {isResetPasswordModalOpen && <ResetPassword />}
     </div>
   );
 }

@@ -8,7 +8,8 @@ import { auth } from "../../api";
 import { useNavigate } from "react-router-dom";
 
 export function Authorization() {
-  const { closeModal, openRegistrationModal } = useAuthorizationModal();
+  const { closeModal, openRegistrationModal, openResetPasswordModal } =
+    useAuthorizationModal();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [user, setUser] = useState({
@@ -101,7 +102,15 @@ export function Authorization() {
         {/* скрытое сообщение об ошибке */}
         {error !== "" ? (
           <p className="text-error">
-            {error} <a href="#">Восстановить пароль?</a>
+            {error}{" "}
+            <a
+              onClick={() => {
+                closeModal();
+                openResetPasswordModal(user.login);
+              }}
+            >
+              Восстановить пароль?
+            </a>
           </p>
         ) : null}
 
