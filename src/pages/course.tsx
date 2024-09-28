@@ -12,6 +12,7 @@ import {
   addCourseToUser,
   removeCourseFromUser,
 } from "../store/slices/userSlice";
+import { Loading } from "../component/loading";
 
 export function Course() {
   const { openModal } = useAuthorizationModal();
@@ -21,6 +22,7 @@ export function Course() {
   const { openUnauthorizedModal } = useAuthorizationModal();
   const userCourses = user?.courses || [];
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourses = async () => {
