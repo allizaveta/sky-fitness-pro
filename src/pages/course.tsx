@@ -18,11 +18,11 @@ export function Course() {
   const { openModal } = useAuthorizationModal();
   const { courseId } = useParams<{ courseId: string }>();
   const [course, setCourse] = useState<CourseType | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { isAuth, user } = useSelector((state: RootState) => state.auth);
   const { openUnauthorizedModal } = useAuthorizationModal();
   const userCourses = user?.courses || [];
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourses = async () => {
