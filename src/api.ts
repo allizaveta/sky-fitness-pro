@@ -120,6 +120,7 @@ export const getUserCourses = async (userId: string): Promise<CourseType[]> => {
     return [];
   }
 };
+
 export const addCourseToUser = async (userId: string, courseId: string) => {
   try {
     const userRef = ref(database, `users/${userId}/courses/${courseId}`);
@@ -163,5 +164,44 @@ export async function getWorkout (id: string | undefined) {
   }
   catch (error) {
     console.error("Ошибка при получении тренировки:", error);
+  }
+}
+
+export async function getCourseProgress (userId: string, courseId: string) {
+  const userCoursesProgressRef = ref(database, `users/${userId}/courses/${courseId}/workouts`);
+  try {
+    const userCoursesProgressSnapshot = await get(userCoursesProgressRef);
+    if (userCoursesProgressSnapshot.exists()) {
+      const userCourseProgres = userCoursesProgressSnapshot.val();
+      return userCourseProgres;
+    }
+  } catch (e) {
+    console.error("Ошибка при получении прогресса курса:", e);
+    return null;
+  }
+}
+
+export async function addWorkoutProgress(userId: string, courseId: string, workoutId: string, values: number[]
+) {
+  try {
+    const userProgressRef = ref(database, `users/${userId}/courses/${courseId}/workouts/${workoutId}`);
+    await update(userProgressRef, {values: values});
+  } catch (error) {
+    console.error("Ошибка при добавлении курса пользователю:", error);
+  }
+}
+
+export async function getWorkoutProgress(userId: string, courseId: string, workoutId: string) {
+  try {
+    const userProgressRef = ref(database, `users/${userId}/courses/${courseId}/workouts/${workoutId}/values`);
+    const snapshot = await get(userProgressRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Ошибка при получении прогресса пользователю:", error);
+    return null;
   }
 }

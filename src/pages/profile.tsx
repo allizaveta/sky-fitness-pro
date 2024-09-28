@@ -4,12 +4,15 @@ import { CourseType } from "../types";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
 import { imageMappings } from "../imageMapping";
-import { removeCourseFromUser as removeCourseFromFirebase } from "../api";
+import {
+  removeCourseFromUser as removeCourseFromFirebase,
+} from "../api";
 import { removeCourseFromUser } from "../store/slices/userSlice";
 
 export function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
+
   const handleRemoveCourse = async (courseId: string) => {
     if (user) {
       try {
@@ -25,7 +28,9 @@ export function Profile() {
 
   const navigate = useNavigate();
 
-  console.log(user);
+  async function continueButton(course: CourseType) {
+    navigate(`/${RoutesPath.WORKOUT}/${course.workouts[0]}`);
+  }
 
   return (
     <>
@@ -74,48 +79,56 @@ export function Profile() {
 
         <div className="flex flex-wrap gap-6">
           {user?.courses && user.courses.length > 0 ? (
-            user.courses.map((course: CourseType) => (
-              <div
-                key={course._id}
-                className="relative bg-white w-[360px] laptop:w-[360px] h-[649px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px]"
-              >
-                <Link to={`${RoutesPath.COURSE}/${course._id}`}>
-                  <img src={imageMappings[course.nameRU]} alt={course.nameRU} />
-                </Link>
-                <img
-                  className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px] cursor-pointer"
-                  src="../public/deleteCourse.svg"
-                  alt="Удалить курс"
-                  onClick={() => handleRemoveCourse(course._id)}
-                />
-                <div className="p-[30px] pt-0">
-                  <p className="text-3xl font-semibold leading-9 text-left pb-[20px]">
-                    {course.nameRU}
-                  </p>
-                  <div className="flex flex-wrap gap-[6px] text-sm font-normal leading-5 text-left">
-                    <div className="flex flex-row h-[38px] bg-inactive-btn rounded-[50px] p-[10px] gap-[6px]">
-                      <img src="/Calendar.svg" className="w-[16px]" />
-                      <p className="self-center">25 дней</p>
+            user.courses.map((course: CourseType) => {
+              return (
+                <div
+                  key={course._id}
+                  className="relative bg-white w-[360px] laptop:w-[360px] h-[649px] flex flex-col gap-[24px] shadow-[0px_4px_67px_-12px_#00000021] rounded-[30px]"
+                >
+                  <Link to={`/${RoutesPath.COURSE}/${course._id}`}>
+                    <img
+                      src={imageMappings[course.nameRU]}
+                      alt={course.nameRU}
+                    />
+                  </Link>
+                  <img
+                    className="h-[30px] w-[30px] absolute fill-black top-[24px] right-[24px] cursor-pointer"
+                    src="../public/deleteCourse.svg"
+                    alt="Удалить курс"
+                    onClick={() => handleRemoveCourse(course._id)}
+                  />
+                  <div className="p-[30px] pt-0">
+                    <p className="text-3xl font-semibold leading-9 text-left pb-[20px]">
+                      {course.nameRU}
+                    </p>
+                    <div className="flex flex-wrap gap-[6px] text-sm font-normal leading-5 text-left">
+                      <div className="flex flex-row h-[38px] bg-inactive-btn rounded-[50px] p-[10px] gap-[6px]">
+                        <img src="/Calendar.svg" className="w-[16px]" />
+                        <p className="self-center">25 дней</p>
+                      </div>
+                      <div className="flex flex-row h-[38px] bg-inactive-btn rounded-[50px] п-[10px] gap-[6px]">
+                        <img src="/Time.svg" className="w-[16px]" />
+                        <p className="self-center">20-50 мин/день</p>
+                      </div>
+                      <div className="flex flex-row h-[38px] bg-inactive-btn rounded-[50px] п-[10px] gap-[6px]">
+                        <img
+                          src="/mingcute_signal-fill.svg"
+                          className="w-[16px]"
+                        />
+                        <p className="self-center">Сложность</p>
+                      </div>
                     </div>
-                    <div className="flex flex-row h-[38px] bg-inactive-btn rounded-[50px] п-[10px] gap-[6px]">
-                      <img src="/Time.svg" className="w-[16px]" />
-                      <p className="self-center">20-50 мин/день</p>
-                    </div>
-                    <div className="flex flex-row h-[38px] bg-inactive-btn rounded-[50px] п-[10px] gap-[6px]">
-                      <img
-                        src="/mingcute_signal-fill.svg"
-                        className="w-[16px]"
-                      />
-                      <p className="self-center">Сложность</p>
-                    </div>
+                    <p>Прогресс: {}%</p>
+                    <button
+                      className="bg-custom-green rounded-full w-[300px] h-[52px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white"
+                      onClick={() => continueButton(course)}
+                    >
+                      Продолжить
+                    </button>
                   </div>
-                  <p>Прогресс: </p>
-                  <button className="bg-custom-green rounded-full w-[300px] h-[52px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white" onClick={() => navigate(`/${RoutesPath.WORKOUT}/${course.workouts[0]}`)}>
-                    Продолжить
-                  </button>
                 </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <p>У вас пока нет добавленных курсов.</p>
           )}

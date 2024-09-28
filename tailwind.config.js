@@ -22,7 +22,11 @@ export default {
         "pd-lg": "calc(50% - 580px)",
         "pd-s": "16px",
       },
+      width: {
+        'custom': 'var(width)',
+      },
     },
   },
+  variants: {},
   plugins: [],
 };

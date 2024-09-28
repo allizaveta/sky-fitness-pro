@@ -1,14 +1,51 @@
 import { useParams } from "react-router-dom";
-import { getWorkout } from "../api";
+import { addWorkoutProgress, getWorkout, getWorkoutProgress } from "../api";
 import { useEffect, useState } from "react";
 import { WorkoutType } from "../types";
 import YouTube from "react-youtube";
 import { ModalWrapper } from "../utils/ModalWrapper";
+import { arr } from "../utils/array";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export function Workout() {
   const { workoutId } = useParams();
   const [workout, setWorkout] = useState<WorkoutType | null>(null);
   const [exercise, setExercise] = useState(false);
+  const [error, setError] = useState("");
+  const [amountOfExercises, setAmountOfExercises] = useState<number[]>([]);
+  const courseId = arr.find((el) => el.workouts.includes(workoutId ?? ""))?.id;
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+
+    if (isNaN(Number(value))) {
+      setError("Вы можете вводить в поле только числа");
+    } else {
+      setError("");
+      setAmountOfExercises((prevArray) => {
+        const newArray = [...(prevArray ?? [])];
+        newArray[Number(name)] = Number(value);
+        return newArray;
+      });
+    }
+  }
+
+  async function onSaveButton() {
+    console.log(amountOfExercises, courseId);
+
+    if (user && courseId && workoutId) {
+      addWorkoutProgress(user._id, courseId, workoutId, amountOfExercises).then((res) => {
+        console.log(res);
+        setExercise(false);
+      }).catch((e) => {
+        setError(e.message);
+      });
+    } else {
+      console.error("User is not logged in or authenticated");
+    }
+  }
 
   useEffect(() => {
     getWorkout(workoutId)
@@ -18,7 +55,20 @@ export function Workout() {
       .catch((e) => {
         console.error(e);
       });
-  }, [workoutId]);
+
+    if (user && courseId && workoutId) {
+      getWorkoutProgress(user._id, courseId, workoutId).then((values) => {
+        console.log("values: ", values);
+        if (values !== null) {
+          setAmountOfExercises(values);
+        } else {
+          setAmountOfExercises([]);
+        }
+      });
+    } else {
+      console.error("User is not logged in or authenticated");
+    }
+  }, [workoutId, user, courseId]);
 
   return (
     <div className="flex flex-col gap-[24px] laptop:gap-[40px]">
@@ -49,13 +99,17 @@ export function Workout() {
           </h2>
           <div className="flex flex-col laptop:grid">
             {workout?.exercises?.map((el, id) => {
+              const percent = amountOfExercises[id - 1] / el.amount > 100 ? 283 : Math.round((283 * (amountOfExercises[id - 1]) / el.amount));
               return (
                 <div key={id}>
                   <p className="font-roboto text-sm font-normal leading-5 text-left mb-[10px]">
                     {el.name} {el.amount}
                   </p>
-                  <div className="w-[283px] laptop:w-[320px] h-[6px] bg-inactive-btn rounded-full">
-                    <div className="w-[160px] h-[6px] bg-exercise-blue rounded-full" />
+                  <div className="w-[283px] h-[6px] bg-inactive-btn rounded-full">
+                    <div
+                      className={`w-custom h-[6px] bg-exercise-blue rounded-full`}
+                      style={{ 'width': `${percent}px` }}
+                    />
                   </div>
                 </div>
               );
@@ -83,18 +137,20 @@ export function Workout() {
                       Сколько раз вы сделали {el.name.toLowerCase()}?
                     </p>
                     <input
-                      placeholder="0"
+                      placeholder={amountOfExercises[id - 1].toString()}
                       className="p-4 pl-4.5 pr-4.5 rounded-lg border border-solid border-[#D0CECE] w-[320px]"
+                      name={`${id - 1}`}
+                      onChange={handleInputChange}
                     />
                   </div>
                 );
               })}
             </div>
+            {error !== "" && <p className="text-error">{error}</p>}
             <button
               className="bg-custom-green rounded-full w-[283px] h-[52px] laptop:w-[320px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white"
               onClick={() => {
-                console.log("Сохраняю");
-                setExercise(false);
+                onSaveButton();
               }}
             >
               Сохранить
