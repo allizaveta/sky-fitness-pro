@@ -11,7 +11,6 @@ export function Layout() {
     isUnauthorizedModalOpen,
     isResetPasswordModalOpen,
   } = useAuthorizationModal();
-
   return (
     <div className="bg-bg pr-pd-s pl-pd-s laptop:pr-pd-lg laptop:pl-pd-lg">
       <Header />
