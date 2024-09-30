@@ -29,5 +29,18 @@ export type WorkoutType = {
   video: string;
   course: string;
   number: number;
+  isDone?: boolean;
   exercises?: ExerciseType[];
 }
+
+export type CourseProgressType = {
+  [key: string]: {
+    id: string;
+    workouts?: {
+      [key: string]: {
+        isDone: boolean;
+        values: number[];
+      };
+    };
+  };
+};
