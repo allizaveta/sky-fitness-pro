@@ -228,8 +228,12 @@ export const changePassword = async (
 
   try {
     await updatePassword(user, newPassword);
-  } catch (error: any) {
-    console.error("Ошибка при изменении пароля:", error.message);
-    throw error;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Ошибка при изменении пароля:", error.message);
+      throw error;
+    } else {
+      console.error("Неизвестная ошибка:", error);
+    }
   }
 };

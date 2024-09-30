@@ -19,8 +19,12 @@ export function ChangePassword() {
       await changePassword(newPassword, confirmPassword);
       setSuccess(true);
       closePasswordModal();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        console.error("Неизвестная ошибка:", err);
+      }
     }
   };
   return (
