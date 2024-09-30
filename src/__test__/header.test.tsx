@@ -7,10 +7,7 @@ import { AuthorizationProvider } from "../context/AuthorizationContext";
 
 describe("Header Component", () => {
   it("does not render any user data when not authenticated", () => {
-    // Create the store for the test
     const store = makeStore();
-
-    // Render the Header component wrapped in Provider and MemoryRouter
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -20,7 +17,5 @@ describe("Header Component", () => {
         </MemoryRouter>
       </Provider>
     );
-
-    // Add your assertions here
   });
 });
