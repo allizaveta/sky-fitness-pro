@@ -14,9 +14,14 @@ type WorkoutChooseProps = {
         };
       }
     | undefined;
+  close: () => void;
 };
 
-export function WorkoutChoose({ course, thisCourse }: WorkoutChooseProps) {
+export function WorkoutChoose({
+  course,
+  thisCourse,
+  close,
+}: WorkoutChooseProps) {
   const [arr, setArr] = useState<
     { id: string; isDone: boolean; name: string }[]
   >([]);
@@ -53,18 +58,22 @@ export function WorkoutChoose({ course, thisCourse }: WorkoutChooseProps) {
 
   return (
     <ModalWrapper>
-      <div className="w-[460px] p-[40px] flex flex-col gap-[48px]">
+      <div className="w-[460px] p-[40px] flex flex-col gap-[48px] relative">
         <h2 className="text-lg font-normal leading-9 text-center">
           Выберите тренировку
         </h2>
+        <div
+          className="exit w-[25px] h-[25px] bg-red-600 absolute right-[40px] top-[50px] hover:cursor-pointer"
+          onClick={() => close()}
+        >
+          <img src="../close-svgrepo-com.svg" alt="exit" className="w-[25px] h-[25px]" />
+        </div>
         <div className="flex flex-col gap-[34px]">
           <div className="flex flex-col gap-[20px]">
             {uniqueArr.map((el, index) => {
               return (
                 <Link to={`/workout/${el.id}`} key={index}>
-                  <div
-                    className="border-b-[1px] pb-[10px] flex gap-[10px]"
-                  >
+                  <div className="border-b-[1px] pb-[10px] flex gap-[10px]">
                     {el.isDone ? (
                       <img src="../workout_done.svg" />
                     ) : (

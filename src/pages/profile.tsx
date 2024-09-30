@@ -193,7 +193,7 @@ export function Profile() {
                     </button>
                   </div>
                   {isChoosingWorkout[index] && (
-                    <WorkoutChoose course={course} thisCourse={thisCourse} />
+                    <WorkoutChoose course={course} thisCourse={thisCourse} close={() => setIsChoosingWorkout(Array(user?.courses.length).fill(false))} />
                   )}
                 </div>
               );
