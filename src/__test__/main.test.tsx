@@ -6,16 +6,12 @@ import { Main } from "../pages/main";
 import { makeStore } from "../store/store";
 
 test("renders Main component", () => {
-  // Создаем экземпляр хранилища
   const store = makeStore();
 
-  // Рендерим компонент Main внутри Provider для доступа к Redux store
   const { container } = render(
     <Provider store={store}>
       <Main />
     </Provider>
   );
-
-  // Проверяем, что компонент Main рендерится
   expect(container).toBeInTheDocument();
 });
