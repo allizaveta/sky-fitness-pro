@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import RoutesPath from "../RoutesPath";
-import { CourseType } from "../types";
+import { CourseProgressType, CourseType } from "../types";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
 import { imageMappings } from "../imageMapping";
@@ -13,18 +13,7 @@ import { useEffect, useState } from "react";
 import { Loading } from "../component/loading";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 import { ChangePassword } from "../component/popups/changePassword";
-
-type CourseProgressType = {
-  [key: string]: {
-    id: string;
-    workouts?: {
-      [key: string]: {
-        isDone: boolean;
-        values: number[];
-      };
-    };
-  };
-};
+import { WorkoutChoose } from "../component/workoutChoose";
 
 export function Profile() {
   const { openPasswordModal, isPasswordModalOpen } = useAuthorizationModal();
@@ -34,6 +23,9 @@ export function Profile() {
     {}
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [isChoosingWorkout, setIsChoosingWorkout] = useState<boolean[]>(
+    Array(user?.courses.length).fill(false)
+  );
 
   const handleRemoveCourse = async (courseId: string) => {
     if (user) {
@@ -47,12 +39,6 @@ export function Profile() {
       console.error("Пользователь не авторизован");
     }
   };
-
-  const navigate = useNavigate();
-
-  function continueButton(course: CourseType, id: number) {
-    navigate(`/${RoutesPath.WORKOUT}/${course.workouts[id]}`);
-  }
 
   useEffect(() => {
     async function fetchCourseProgress() {
@@ -138,7 +124,7 @@ export function Profile() {
 
         <div className="flex gap-[24px] flex-col laptop:grid laptop:grid-cols-3 laptop:gap-[40px] pb-[34px] items-center">
           {user?.courses && user.courses.length > 0 ? (
-            user.courses.map((course: CourseType) => {
+            user.courses.map((course: CourseType, index) => {
               const thisCourse = coursesProgress[course._id]?.workouts;
               const doneWorkouts = thisCourse
                 ? Object.values(thisCourse).filter((x) => x.isDone).length
@@ -195,11 +181,20 @@ export function Profile() {
 
                     <button
                       className="bg-custom-green rounded-full w-[300px] h-[52px] hover:bg-hover-green active:bg-active-green self-center text-lg font-normal leading-5 text-center active:text-white"
-                      onClick={() => continueButton(course, doneWorkouts)}
+                      onClick={() =>
+                        setIsChoosingWorkout((prev) => {
+                          const newArr = prev.map(() => false);
+                          newArr[index] = true;
+                          return newArr;
+                        })
+                      }
                     >
                       Продолжить
                     </button>
                   </div>
+                  {isChoosingWorkout[index] && (
+                    <WorkoutChoose course={course} thisCourse={thisCourse} />
+                  )}
                 </div>
               );
             })
