@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import { WorkoutType } from "../types";
 import YouTube from "react-youtube";
 import { ModalWrapper } from "../utils/ModalWrapper";
-import { arr } from "../utils/array";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { RootState, useAppSelector } from "../store/store";
 import { useAuthorizationModal } from "../context/AuthorizationContext";
 import { Loading } from "../component/loading";
 
@@ -16,7 +15,8 @@ export function Workout() {
   const { openExercise, closeExercise, exercise } = useAuthorizationModal();
   const [error, setError] = useState("");
   const [amountOfExercises, setAmountOfExercises] = useState<number[]>([]);
-  const courseId = arr.find((el) => el.workouts.includes(workoutId ?? ""))?.id;
+  const courses = useAppSelector((state) => state.auth.user?.courses);
+  const courseId = courses?.find((el) => el.workouts.includes(workoutId ?? ""))?._id;
   const user = useSelector((state: RootState) => state.auth.user);
   const [isLoading, setIsLoading] = useState(true);
 
